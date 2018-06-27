@@ -1,7 +1,7 @@
 version: '2'
 services:
   clothobserve-production:
-    image: hashdivision/clothobserve:production
+    image: hashdivision/clothobserve:latest
     restart: always
     environment:
       - CONFIG_OBJECT=configs.config.ProductionConfig
