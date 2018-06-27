@@ -2,8 +2,8 @@ FROM python:3.6-alpine3.7
 LABEL maintainer="Igor Nehoroshev <harry@hashdivision.com>"
 RUN mkdir -p /clothobserve /tests /docs
 COPY requirements.txt /requirements.txt
-COPY clothobserve /clothobserve/
-COPY tests /tests/
+COPY ../../clothobserve /clothobserve/
+COPY ../../tests /tests/
 WORKDIR /clothobserve
 RUN apk add --update alpine-sdk
 RUN pip3 install -r /requirements.txt
