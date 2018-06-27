@@ -5,3 +5,6 @@ Flask-API
 flask-login
 gunicorn
 apscheduler
+sphinx
+coverage
+pylint
