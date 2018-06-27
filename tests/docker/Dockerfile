@@ -1,7 +1,7 @@
 FROM python:3.6-alpine3.7
 LABEL maintainer="Igor Nehoroshev <harry@hashdivision.com>"
 RUN mkdir -p /clothobserve /tests /docs
-COPY test-requirements.txt /requirements.txt
+COPY requirements.txt /requirements.txt
 COPY clothobserve /clothobserve/
 COPY tests /tests/
 WORKDIR /clothobserve
