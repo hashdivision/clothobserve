@@ -1,0 +1,6 @@
+Flask
+flask-security
+flask-mongoengine
+Flask-API
+flask-login
+gunicorn

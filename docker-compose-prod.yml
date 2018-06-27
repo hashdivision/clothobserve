@@ -1,0 +1,10 @@
+version: '2'
+services:
+  clothobserve-production:
+    image: hashdivision/clothobserve:production
+    restart: always
+    environment:
+      - CONFIG_OBJECT=configs.config.ProductionConfig
+      - ROOT_PATH=/clothobserve/
+    ports:
+      - "127.0.0.1:5000:5000"
