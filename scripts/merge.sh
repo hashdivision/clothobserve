@@ -7,9 +7,8 @@ cd "${DIR}/.."
 git fetch origin
 
 if [ -f FEATURE ]; then
-    local feature_name=$(<FEATURE)
+    feature_name=$(<FEATURE)
     git rm FEATURE
-    rm FEATURE
     git commit -m "Prepares feature ${feature_name} to be merged into development"
     git push
 
@@ -20,9 +19,8 @@ if [ -f FEATURE ]; then
     git push origin --delete "feature-${feature_name}"
     git branch -d "feature-${feature_name}"
 elif [ -f VERSION]; then
-    local version=$(<VERSION)
+    version=$(<VERSION)
     git rm VERSION
-    rm VERSION
     git commit -m "Prepares release ${version} to be merged into master and development"
     git push
 
@@ -39,9 +37,8 @@ elif [ -f VERSION]; then
     git push origin --delete "release-${version}"
     git branch -d "release-${version}"
 elif [ -f HOTFIX]; then
-    local hotfix=$(<HOTFIX)
+    hotfix=$(<HOTFIX)
     git rm HOTFIX
-    rm HOTFIX
     git commit -m "Prepares hotfix ${hotfix} to be merged into master and development"
     git push
 
