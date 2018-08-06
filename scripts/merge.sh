@@ -9,7 +9,6 @@ git fetch origin
 if [ -f FEATURE ]; then
     feature_name=$(<FEATURE)
     git rm FEATURE
-    rm FEATURE
     git commit -m "Prepares feature ${feature_name} to be merged into development"
     git push
 
@@ -22,7 +21,6 @@ if [ -f FEATURE ]; then
 elif [ -f VERSION]; then
     version=$(<VERSION)
     git rm VERSION
-    rm VERSION
     git commit -m "Prepares release ${version} to be merged into master and development"
     git push
 
@@ -41,7 +39,6 @@ elif [ -f VERSION]; then
 elif [ -f HOTFIX]; then
     hotfix=$(<HOTFIX)
     git rm HOTFIX
-    rm HOTFIX
     git commit -m "Prepares hotfix ${hotfix} to be merged into master and development"
     git push
 
