@@ -6,7 +6,9 @@ Subpackages
 
 .. toctree::
 
+    clothobserve.configs
     clothobserve.core
+    clothobserve.modules
     clothobserve.utils
 
 Submodules
