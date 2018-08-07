@@ -5,5 +5,3 @@ Flask-API
 flask-login
 apscheduler
 sphinx
-coverage
-pylint

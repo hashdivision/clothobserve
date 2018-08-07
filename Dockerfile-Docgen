@@ -1,0 +1,11 @@
+FROM python:3.6-alpine3.7
+LABEL maintainer="Igor Nehoroshev <harry@hashdivision.com>"
+RUN mkdir -p /clothobserve /docs
+COPY docgen-requirements.txt /requirements.txt
+RUN pip3 install -r /requirements.txt
+WORKDIR /clothobserve
+RUN apk add --update alpine-sdk
+
+EXPOSE 5000
+
+CMD sleep 10 && sphinx-apidoc -f -o /docs/source/ /clothobserve/ && cd /docs && make html
