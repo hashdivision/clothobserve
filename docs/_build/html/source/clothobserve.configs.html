@@ -1,0 +1,459 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>clothobserve.configs package &#8212; clothobserve 0.27.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="clothobserve-configs-package">
+<h1>clothobserve.configs package<a class="headerlink" href="#clothobserve-configs-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-clothobserve.configs.config">
+<span id="clothobserve-configs-config-module"></span><h2>clothobserve.configs.config module<a class="headerlink" href="#module-clothobserve.configs.config" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="clothobserve-configs-config">
+<h3>clothobserve.configs.config<a class="headerlink" href="#clothobserve-configs-config" title="Permalink to this headline">¶</a></h3>
+<dl class="docutils">
+<dt>Configurations for different environments:</dt>
+<dd><ul class="first last simple">
+<li>production</li>
+<li>development</li>
+<li>test</li>
+</ul>
+</dd>
+</dl>
+<p>and initialization of <code class="docutils literal notranslate"><span class="pre">Flask</span></code> server.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">copyright:</th><td class="field-body">© 2018 HashDivision OU.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">license:</th><td class="field-body">Apache License 2.0, see <em>LICENSE</em> for more details.</td>
+</tr>
+</tbody>
+</table>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="class">
+<dt id="clothobserve.configs.config.Config">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">Config</code><a class="headerlink" href="#clothobserve.configs.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for configuration.
+Most of configuration is customizable.</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MAIL_DEFAULT_SENDER">
+<code class="descname">MAIL_DEFAULT_SENDER</code><em class="property"> = 'Clothobserve &lt;noreply&#64;example.com&gt;'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MAIL_DEFAULT_SENDER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default sender of mail.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MAIL_SERVER">
+<code class="descname">MAIL_SERVER</code><em class="property"> = '172.17.0.1'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MAIL_SERVER" title="Permalink to this definition">¶</a></dt>
+<dd><p>SMTP server (<em>example: Postfix</em>) host (default - host from Docker perspective).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MAIL_SUPPRESS_SEND">
+<code class="descname">MAIL_SUPPRESS_SEND</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.MAIL_SUPPRESS_SEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sending mail is suppressed by default.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MAIL_USE_TLS">
+<code class="descname">MAIL_USE_TLS</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.MAIL_USE_TLS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clothobserve server uses TLS to secure mail.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MONGODB_DB">
+<code class="descname">MONGODB_DB</code><em class="property"> = 'clothobserve'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MONGODB_DB" title="Permalink to this definition">¶</a></dt>
+<dd><p>MongoDB database name (default - clothobserve), it should be already created.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MONGODB_HOST">
+<code class="descname">MONGODB_HOST</code><em class="property"> = 'mongodb'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MONGODB_HOST" title="Permalink to this definition">¶</a></dt>
+<dd><p>MongoDB host (default - mongodb).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MONGODB_PASSWORD">
+<code class="descname">MONGODB_PASSWORD</code><em class="property"> = 'clothobserveadmin'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MONGODB_PASSWORD" title="Permalink to this definition">¶</a></dt>
+<dd><p>MongoDB password for MONGODB_USERNAME user.
+<strong>Should be long and random in production</strong>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MONGODB_PORT">
+<code class="descname">MONGODB_PORT</code><em class="property"> = 27017</em><a class="headerlink" href="#clothobserve.configs.config.Config.MONGODB_PORT" title="Permalink to this definition">¶</a></dt>
+<dd><p>MongoDB port  (default - 27017, <strong>should be changed to random number in production</strong>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.MONGODB_USERNAME">
+<code class="descname">MONGODB_USERNAME</code><em class="property"> = 'clothobserveadmin'</em><a class="headerlink" href="#clothobserve.configs.config.Config.MONGODB_USERNAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>MongoDB user with <em>readWrite</em> and <em>dbAdmin</em> privileges for clothobserve database
+(<strong>dbOwner privilege is bad for security</strong>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.REMEMBER_COOKIE_DURATION">
+<code class="descname">REMEMBER_COOKIE_DURATION</code><em class="property"> = 1209600</em><a class="headerlink" href="#clothobserve.configs.config.Config.REMEMBER_COOKIE_DURATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Session lifetime is set to 2 weeks, as it is the ideal duration.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECRET_KEY">
+<code class="descname">SECRET_KEY</code><em class="property"> = 'not-secret-enough-change-me-please'</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECRET_KEY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Secret key should be at least 32 characters long and as random as possible.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECURITY_DEPRECATED_HASHING_SCHEMES">
+<code class="descname">SECURITY_DEPRECATED_HASHING_SCHEMES</code><em class="property"> = []</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECURITY_DEPRECATED_HASHING_SCHEMES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated hashing schemes are empty, because we don’t use MD5 or SHA1 anyway.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECURITY_HASHING_SCHEMES">
+<code class="descname">SECURITY_HASHING_SCHEMES</code><em class="property"> = ['pbkdf2_sha512']</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECURITY_HASHING_SCHEMES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hashing schemes have only PBKDF2_SHA512 algorithm,
+since this is the only thing we use for password hashing.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECURITY_PASSWORD_HASH">
+<code class="descname">SECURITY_PASSWORD_HASH</code><em class="property"> = 'pbkdf2_sha512'</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECURITY_PASSWORD_HASH" title="Permalink to this definition">¶</a></dt>
+<dd><p>For secure passwords PBKDF2_SHA512 algorithm is used for hashing.
+It gives the best result on 64-bit server.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECURITY_PASSWORD_SINGLE_HASH">
+<code class="descname">SECURITY_PASSWORD_SINGLE_HASH</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECURITY_PASSWORD_SINGLE_HASH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flask-Security unnecessary salts password twice, second time with salt from config.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SECURITY_TRACKABLE">
+<code class="descname">SECURITY_TRACKABLE</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.SECURITY_TRACKABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>We enable tracking of users logins,
+as this information can be useful for security.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SESSION_COOKIE_DOMAIN">
+<code class="descname">SESSION_COOKIE_DOMAIN</code><em class="property"> = '.example.com'</em><a class="headerlink" href="#clothobserve.configs.config.Config.SESSION_COOKIE_DOMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Session domain is written with dot to use session in subdomains.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SESSION_COOKIE_HTTPONLY">
+<code class="descname">SESSION_COOKIE_HTTPONLY</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.SESSION_COOKIE_HTTPONLY" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag tells browser that cookie cannot be retrieved
+via Javascript and should only be used in HTTP queries.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SESSION_COOKIE_SAMESITE">
+<code class="descname">SESSION_COOKIE_SAMESITE</code><em class="property"> = 'Strict'</em><a class="headerlink" href="#clothobserve.configs.config.Config.SESSION_COOKIE_SAMESITE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag tells browser, that cookie cannot be used
+on other sites in requests to our site.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.Config.SESSION_COOKIE_SECURE">
+<code class="descname">SESSION_COOKIE_SECURE</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.Config.SESSION_COOKIE_SECURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>This flag tells browser to only send this cookie via HTTPS
+(<em>should be used with HTTPS or browsers will ignore Set-Cookie header</em>).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="clothobserve.configs.config.DevelopmentConfig">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">DevelopmentConfig</code><a class="headerlink" href="#clothobserve.configs.config.DevelopmentConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#clothobserve.configs.config.Config" title="clothobserve.configs.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">clothobserve.configs.config.Config</span></code></a></p>
+<p>Base configuration for development.</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentConfig.DEBUG">
+<code class="descname">DEBUG</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentConfig.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug in Development environment turned on by default.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentConfig.EXPLAIN_TEMPLATE_LOADING">
+<code class="descname">EXPLAIN_TEMPLATE_LOADING</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentConfig.EXPLAIN_TEMPLATE_LOADING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loading of templates is explained for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentConfig.TESTING">
+<code class="descname">TESTING</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentConfig.TESTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Testing in Development environment turned on by default.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">DevelopmentLocalConfig</code><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#clothobserve.configs.config.DevelopmentConfig" title="clothobserve.configs.config.DevelopmentConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">clothobserve.configs.config.DevelopmentConfig</span></code></a></p>
+<p>Configuration for local development,
+which is used for testing features locally.</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.CONFIG_TYPE">
+<code class="descname">CONFIG_TYPE</code><em class="property"> = 'development-local'</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.CONFIG_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config type is useful for debug purposes
+(<em>to determine, what configuration is used</em>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.MAIL_SUPPRESS_SEND">
+<code class="descname">MAIL_SUPPRESS_SEND</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.MAIL_SUPPRESS_SEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sending mail is suppressed, because
+local development environment should not send mail.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.SESSION_COOKIE_DOMAIN">
+<code class="descname">SESSION_COOKIE_DOMAIN</code><em class="property"> = '127.0.0.1'</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.SESSION_COOKIE_DOMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Local development environment does not has domain name,
+so for cookies 127.0.0.1 is used.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.SESSION_COOKIE_SECURE">
+<code class="descname">SESSION_COOKIE_SECURE</code><em class="property"> = False</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.SESSION_COOKIE_SECURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Local development environment is
+not using HTTPS connection, so <code class="docutils literal notranslate"><span class="pre">Secure</span></code> flag is not set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.TRAP_BAD_REQUEST_ERRORS">
+<code class="descname">TRAP_BAD_REQUEST_ERRORS</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.TRAP_BAD_REQUEST_ERRORS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bad request errors are trapped for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentLocalConfig.TRAP_HTTP_EXCEPTIONS">
+<code class="descname">TRAP_HTTP_EXCEPTIONS</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentLocalConfig.TRAP_HTTP_EXCEPTIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP exceptions (errors) are trapped for better debugging.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="clothobserve.configs.config.DevelopmentServerConfig">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">DevelopmentServerConfig</code><a class="headerlink" href="#clothobserve.configs.config.DevelopmentServerConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#clothobserve.configs.config.DevelopmentConfig" title="clothobserve.configs.config.DevelopmentConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">clothobserve.configs.config.DevelopmentConfig</span></code></a></p>
+<p>Configuration for development server.</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.DevelopmentServerConfig.CONFIG_TYPE">
+<code class="descname">CONFIG_TYPE</code><em class="property"> = 'development-server'</em><a class="headerlink" href="#clothobserve.configs.config.DevelopmentServerConfig.CONFIG_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config type is useful for debug purposes
+(<em>to determine, what configuration is used</em>).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="clothobserve.configs.config.ProductionConfig">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">ProductionConfig</code><a class="headerlink" href="#clothobserve.configs.config.ProductionConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#clothobserve.configs.config.Config" title="clothobserve.configs.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">clothobserve.configs.config.Config</span></code></a></p>
+<p>Production configuration class.</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.ProductionConfig.CONFIG_TYPE">
+<code class="descname">CONFIG_TYPE</code><em class="property"> = 'production'</em><a class="headerlink" href="#clothobserve.configs.config.ProductionConfig.CONFIG_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config type is useful for debug purposes
+(<em>to determine, what configuration is used</em>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.ProductionConfig.DEBUG">
+<code class="descname">DEBUG</code><em class="property"> = False</em><a class="headerlink" href="#clothobserve.configs.config.ProductionConfig.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Debug is turned off in production for security reasons.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.ProductionConfig.TESTING">
+<code class="descname">TESTING</code><em class="property"> = False</em><a class="headerlink" href="#clothobserve.configs.config.ProductionConfig.TESTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Testing is turned off in production for security reasons.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="clothobserve.configs.config.TestingConfig">
+<em class="property">class </em><code class="descclassname">clothobserve.configs.config.</code><code class="descname">TestingConfig</code><a class="headerlink" href="#clothobserve.configs.config.TestingConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#clothobserve.configs.config.Config" title="clothobserve.configs.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">clothobserve.configs.config.Config</span></code></a></p>
+<p>Configuration for running tests (unittest &amp; coverage).</p>
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.CONFIG_TYPE">
+<code class="descname">CONFIG_TYPE</code><em class="property"> = 'testing'</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.CONFIG_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Config type is useful for debug purposes
+(<em>to determine, what configuration is used</em>).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.DEBUG">
+<code class="descname">DEBUG</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd><p>In testing environment debug is turned on for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.EXPLAIN_TEMPLATE_LOADING">
+<code class="descname">EXPLAIN_TEMPLATE_LOADING</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.EXPLAIN_TEMPLATE_LOADING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loading of templates is explained for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.MAIL_SUPPRESS_SEND">
+<code class="descname">MAIL_SUPPRESS_SEND</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.MAIL_SUPPRESS_SEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sending mail is suppressed, because
+testing environment should not send mail.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.SESSION_COOKIE_DOMAIN">
+<code class="descname">SESSION_COOKIE_DOMAIN</code><em class="property"> = '127.0.0.1'</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.SESSION_COOKIE_DOMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Testing environment does not has domain name,
+so for cookies 127.0.0.1 is used.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.SESSION_COOKIE_SECURE">
+<code class="descname">SESSION_COOKIE_SECURE</code><em class="property"> = False</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.SESSION_COOKIE_SECURE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Local development environment is
+not using HTTPS connection, so <code class="docutils literal notranslate"><span class="pre">Secure</span></code> flag is not set.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.TESTING">
+<code class="descname">TESTING</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.TESTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>In testing environment testing is turned on for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.TRAP_BAD_REQUEST_ERRORS">
+<code class="descname">TRAP_BAD_REQUEST_ERRORS</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.TRAP_BAD_REQUEST_ERRORS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bad request errors are trapped for better debugging.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="clothobserve.configs.config.TestingConfig.TRAP_HTTP_EXCEPTIONS">
+<code class="descname">TRAP_HTTP_EXCEPTIONS</code><em class="property"> = True</em><a class="headerlink" href="#clothobserve.configs.config.TestingConfig.TRAP_HTTP_EXCEPTIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP exceptions (errors) are trapped for better debugging.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="clothobserve.configs.config.create_server">
+<code class="descclassname">clothobserve.configs.config.</code><code class="descname">create_server</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; flask.app.Flask<a class="headerlink" href="#clothobserve.configs.config.create_server" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes <code class="docutils literal notranslate"><span class="pre">Flask</span></code> server.</p>
+<p>Configuration is loaded from class (path to it should be
+in environment variable CONFIG_OBJECT), which should be
+subclassed from <code class="docutils literal notranslate"><span class="pre">Config</span></code> class.
+Configuration in HTTP proxy environment (<code class="docutils literal notranslate"><span class="pre">ProxyFix</span></code>) is done
+because original Clothobserve app is behind the proxy.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>The <code class="docutils literal notranslate"><span class="pre">Flask</span></code> class object.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-clothobserve.configs">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-clothobserve.configs" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">clothobserve</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, HashDivision OU.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+      |
+      <a href="../_sources/source/clothobserve.configs.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

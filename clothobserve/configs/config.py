@@ -15,85 +15,58 @@
     |
 
 """
-from flask_security import Security
+import os
+from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
-from core.server import ClothobserveServer
-from core.database.mongo import MONGO_DB
-from core.database.mongo_user_models import USER_DATASTORE
-from core.mail.sender import MAIL
 
-def create_server(config_object: str = "configs.config.DevelopmentLocalConfig", \
-                root_path: str = "/clothobserve/") -> ClothobserveServer:
+def create_server() -> Flask:
     """Creates and initializes ``Flask`` server.
 
-    Configuration is loaded from ``config_object`` class,
-    which should be subclassed from ``Config`` class.
+    Configuration is loaded from class (path to it should be
+    in environment variable CONFIG_OBJECT), which should be
+    subclassed from ``Config`` class.
     Configuration in HTTP proxy environment (``ProxyFix``) is done
     because original Clothobserve app is behind the proxy.
-
-    Libraries that are initialized for Clothobserve are:
-        - ``Flask-Security``,
-        - ``Flask-MongoEngine``,
-        - ``Flask-Mail``,
-        - ``apscheduler``
-
-    :param config_object: "Full address" of a class to use as configuration,
-        which should be subclassed from ``Config`` class.
-        Defaults to ``configs.config.DevelopmentLocalConfig``.
-
-    :param root_path: Path on OS where all application code and folders
-        like templates are. Defaults to ``/clothobserve/``.
 
     Returns:
         The ``Flask`` class object.
     """
-    server = ClothobserveServer('clothobserve', root_path=root_path)
+    root_path = os.getenv('ROOT_PATH', '/clothobserve/')
+    config_object = os.getenv('CONFIG_OBJECT', 'configs.config.DevelopmentLocalConfig')
+
+    server = Flask('clothobserve', root_path=root_path)
     server.config.from_object(config_object)
     server.wsgi_app = ProxyFix(server.wsgi_app, num_proxies=1)
-    MONGO_DB.init_app(server)
-    MAIL.init_app(server)
-    Security(server, USER_DATASTORE)
-    server.start_scheduler()
 
     return server
 
-class Config(object): # pylint: disable=too-few-public-methods
+class Config(): # pylint: disable=too-few-public-methods
     """
     Base class for configuration.
-    Most of default configuration is for production.
+    Most of configuration is customizable.
     """
-    #: Config type is useful for debug purposes
-    #: (*to determine, what configuration is used*).
-    CONFIG_TYPE = 'base'
-    #: Debug is turned off in production for security reasons.
-    DEBUG = False
-    #: Testing is turned off in production for security reasons.
-    TESTING = False
     #: Secret key should be at least 32 characters long and as random as possible.
-    SECRET_KEY = 'not-secret-enough'
-    #: Are ReCAPTCHA checks turned on.
-    RECAPTCHA = True
-    #: MongoDB database named clothobserve, it should be already created.
-    MONGODB_DB = 'clothobserve'
-    #: Host IP from Docker container perspective
-    #: (*on production server MongoDB server is installed directly on server*).
-    MONGODB_HOST = '172.17.0.1'
-    #: Port 27017 is default and should be changed to random number in production.
-    MONGODB_PORT = 27017
-    #: User with *readWrite* and *dbAdmin* privileges for clothobserve database
+    SECRET_KEY = os.getenv('SECRET_KEY', 'not-secret-enough-change-me-please')
+    #: MongoDB database name (default - clothobserve), it should be already created.
+    MONGODB_DB = os.getenv('MONGODB_DB', 'clothobserve')
+    #: MongoDB host (default - mongodb).
+    MONGODB_HOST = os.getenv('MONGODB_HOST', 'mongodb')
+    #: MongoDB port  (default - 27017, **should be changed to random number in production**).
+    MONGODB_PORT = int(os.getenv('MONGODB_PORT', '27017'))
+    #: MongoDB user with *readWrite* and *dbAdmin* privileges for clothobserve database
     #: (**dbOwner privilege is bad for security**).
-    MONGODB_USERNAME = 'clothobserveadmin'
-    #: Default MongoDB password, should be changed to random in production.
-    MONGODB_PASSWORD = 'clothobserveadmin'
-    #: Sending mail is suppressed by default, because it is only used in production.
-    MAIL_SUPPRESS_SEND = False
-    #: Default sender of mail, can be overriden.
-    MAIL_DEFAULT_SENDER = 'Clothobserve <noreply@clothobserve.com>'
+    MONGODB_USERNAME = os.getenv('MONGODB_USERNAME', 'clothobserveadmin')
+    #: MongoDB password for MONGODB_USERNAME user.
+    #: **Should be long and random in production**.
+    MONGODB_PASSWORD = os.getenv('MONGODB_PASSWORD', 'clothobserveadmin')
+    #: Sending mail is suppressed by default.
+    MAIL_SUPPRESS_SEND = (os.getenv('MAIL_SUPPRESS_SEND', 'true') == 'true')
+    #: Default sender of mail.
+    MAIL_DEFAULT_SENDER = os.getenv('MAIL_SENDER', 'Clothobserve <noreply@example.com>')
     #: Clothobserve server uses TLS to secure mail.
     MAIL_USE_TLS = True
-    #: Host IP from Docker container perspective
-    #: (*on production server mail server is installed directly on server*).
-    MAIL_SERVER = '172.17.0.1'
+    #: SMTP server (*example: Postfix*) host (default - host from Docker perspective).
+    MAIL_SERVER = os.getenv('MAIL_SERVER', '172.17.0.1')
     #: For secure passwords PBKDF2_SHA512 algorithm is used for hashing.
     #: It gives the best result on 64-bit server.
     SECURITY_PASSWORD_HASH = 'pbkdf2_sha512'
@@ -102,8 +75,7 @@ class Config(object): # pylint: disable=too-few-public-methods
     SECURITY_HASHING_SCHEMES = ['pbkdf2_sha512']
     #: Deprecated hashing schemes are empty, because we don't use MD5 or SHA1 anyway.
     SECURITY_DEPRECATED_HASHING_SCHEMES = []
-    #: This flag is set to True, because Flask-Security
-    #: unnecessary salts password twice, second time with salt from config.
+    #: Flask-Security unnecessary salts password twice, second time with salt from config.
     SECURITY_PASSWORD_SINGLE_HASH = True
     #: This flag tells browser to only send this cookie via HTTPS
     #: (*should be used with HTTPS or browsers will ignore Set-Cookie header*).
@@ -117,7 +89,7 @@ class Config(object): # pylint: disable=too-few-public-methods
     #: Session lifetime is set to 2 weeks, as it is the ideal duration.
     REMEMBER_COOKIE_DURATION = 1209600
     #: Session domain is written with dot to use session in subdomains.
-    SESSION_COOKIE_DOMAIN = '.clothobserve.com'
+    SESSION_COOKIE_DOMAIN = os.getenv('MONGODB_USERNAME', '.example.com')
     #: We enable tracking of users logins,
     #: as this information can be useful for security.
     SECURITY_TRACKABLE = True
@@ -127,33 +99,27 @@ class ProductionConfig(Config): # pylint: disable=too-few-public-methods
     #: Config type is useful for debug purposes
     #: (*to determine, what configuration is used*).
     CONFIG_TYPE = 'production'
-    #: Random, 64 symbols long secret key.
-    SECRET_KEY = 'long-secret-key'
-    #: Random port for MongoDB.
-    MONGODB_PORT = 59429
-    #: Random password for MongoDB.
-    MONGODB_PASSWORD = 'long-secret-key'
+    #: Debug is turned off in production for security reasons.
+    DEBUG = False
+    #: Testing is turned off in production for security reasons.
+    TESTING = False
 
 class DevelopmentConfig(Config): # pylint: disable=too-few-public-methods
     """Base configuration for development."""
-    #: In development environment debug is turned on for better debugging.
-    DEBUG = True
+    #: Debug in Development environment turned on by default.
+    DEBUG = (os.getenv('DEV_DEBUG', 'true') == 'true')
+    #: Testing in Development environment turned on by default.
+    TESTING = (os.getenv('DEV_TESTING', 'true') == 'true')
     #: Loading of templates is explained for better debugging.
     EXPLAIN_TEMPLATE_LOADING = True
-    #: In development environment MongoDB is in Docker container,
-    #: so we use name instead of IP.
-    MONGODB_HOST = 'mongodb'
 
 class DevelopmentServerConfig(DevelopmentConfig): # pylint: disable=too-few-public-methods
     """
-    Configuration for development server,
-    which is used for testing features on a special development server.
+    Configuration for development server.
     """
     #: Config type is useful for debug purposes
     #: (*to determine, what configuration is used*).
     CONFIG_TYPE = 'development-server'
-    #: Random, 64 symbols long secret key.
-    SECRET_KEY = 'long-secret-key'
 
 class DevelopmentLocalConfig(DevelopmentConfig): # pylint: disable=too-few-public-methods
     """
@@ -163,8 +129,6 @@ class DevelopmentLocalConfig(DevelopmentConfig): # pylint: disable=too-few-publi
     #: Config type is useful for debug purposes
     #: (*to determine, what configuration is used*).
     CONFIG_TYPE = 'development-local'
-    #: Random, 64 symbols long secret key.
-    SECRET_KEY = 'long-secret-key'
     #: Bad request errors are trapped for better debugging.
     TRAP_BAD_REQUEST_ERRORS = True
     #: HTTP exceptions (errors) are trapped for better debugging.
@@ -188,19 +152,12 @@ class TestingConfig(Config): # pylint: disable=too-few-public-methods
     DEBUG = True
     #: In testing environment testing is turned on for better debugging.
     TESTING = True
-    #: Random, 64 symbols long secret key.
-    SECRET_KEY = 'long-secret-key'
-    #: In testing environment ReCAPTCHA checks turned off.
-    RECAPTCHA = False
     #: Bad request errors are trapped for better debugging.
     TRAP_BAD_REQUEST_ERRORS = True
     #: HTTP exceptions (errors) are trapped for better debugging.
     TRAP_HTTP_EXCEPTIONS = True
     #: Loading of templates is explained for better debugging.
     EXPLAIN_TEMPLATE_LOADING = True
-    #: In testing environment MongoDB is in Docker container,
-    #: so we use name instead of IP.
-    MONGODB_HOST = 'mongodb'
     #: Sending mail is suppressed, because
     #: testing environment should not send mail.
     MAIL_SUPPRESS_SEND = True

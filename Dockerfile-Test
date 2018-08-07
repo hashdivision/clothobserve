@@ -9,4 +9,4 @@ RUN pip3 install -r /requirements.txt
 
 EXPOSE 5000
 
-CMD sleep 20 && coverage run --source=/clothobserve --omit=/clothobserve/ui/* -m unittest discover -v -s /tests/ && coverage report -m && sphinx-apidoc -f -o /docs/source/ /clothobserve/ /clothobserve/ui && cd /docs && make html && cd /clothobserve && pylint --generated-members=id,objects,StringField,DateTimeField,BooleanField,ReferenceField,ListField,IntField main.py configs core utils modules
+CMD sleep 10 && coverage run --source=/clothobserve -m unittest discover -v -s /tests/ && coverage report -m && sphinx-apidoc -f -o /docs/source/ /clothobserve/ && cd /docs && make html && cd /clothobserve && pylint --generated-members=id,objects,StringField,DateTimeField,BooleanField,ReferenceField,ListField,IntField main.py configs core utils modules
