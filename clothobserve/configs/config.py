@@ -89,7 +89,7 @@ class Config(): # pylint: disable=too-few-public-methods
     #: Session lifetime is set to 2 weeks, as it is the ideal duration.
     REMEMBER_COOKIE_DURATION = 1209600
     #: Session domain is written with dot to use session in subdomains.
-    SESSION_COOKIE_DOMAIN = os.getenv('MONGODB_USERNAME', '.example.com')
+    SESSION_COOKIE_DOMAIN = os.getenv('COOKIE_DOMAIN', '.example.com')
     #: We enable tracking of users logins,
     #: as this information can be useful for security.
     SECURITY_TRACKABLE = True
