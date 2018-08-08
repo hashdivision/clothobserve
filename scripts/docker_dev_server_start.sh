@@ -16,11 +16,9 @@ docker run --name mongodb \
     -e MONGODB_DATABASE=clothobserve \
     -d bitnami/mongodb:latest
 
-docker build -f Dockerfile-Quicktest -t clothobserve-quicktest .
-docker run --link=mongodb:mongodb \
-    -e CONFIG_OBJECT=configs.config.TestingConfig \
+docker build -f Dockerfile-Dev-Server -t clothobserve-dev-server .
+docker run -p 127.0.0.1:43597:5000 \
+    -e CONFIG_OBJECT=configs.config.DevelopmentServerConfig \
     -e ROOT_PATH=/clothobserve/ \
     -e MONGODB_PORT=27017 \
-    -v ${PWD}/clothobserve:/clothobserve \
-    -v ${PWD}/tests:/tests \
-    -it --rm clothobserve-quicktest
+    -d clothobserve-dev-server
