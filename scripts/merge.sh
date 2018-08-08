@@ -4,7 +4,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}/.."
 
-git fetch origin
+git pull origin development
 
 if [ -f FEATURE ]; then
     feature_name=$(<FEATURE)
@@ -24,6 +24,7 @@ elif [ -f VERSION]; then
     git commit -m "Prepares release ${version} to be merged into master and development"
     git push
 
+    git pull origin master
     git checkout master
     git merge --no-ff "release-${version}"
     git tag -a "${version}"
@@ -42,6 +43,7 @@ elif [ -f HOTFIX]; then
     git commit -m "Prepares hotfix ${hotfix} to be merged into master and development"
     git push
 
+    git pull origin master
     git checkout master
     git merge --no-ff "hotfix-${hotfix}"
     git tag -a "${hotfix}"

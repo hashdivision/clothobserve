@@ -9,7 +9,7 @@ fi
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${DIR}/.."
 
-git fetch origin
+git pull origin development
 git checkout -b "hotfix-$1" master
 git push -u origin HEAD
 echo "$1" > HOTFIX
