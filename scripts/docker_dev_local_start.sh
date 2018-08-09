@@ -18,7 +18,7 @@ docker run --name mongodb \
 
 docker build -f Dockerfile-Dev-Local -t clothobserve-dev-local .
 docker run -p 0.0.0.0:80:5000 \
-    -e CONFIG_OBJECT=configs.config.DevelopmentLocalConfig \
+    -e CONFIG_TYPE=DevelopmentLocalConfig \
     -e ROOT_PATH=/clothobserve/ \
     -e MONGODB_PORT=27017 \
     -v ${PWD}/clothobserve:/clothobserve \

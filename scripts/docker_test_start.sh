@@ -18,7 +18,7 @@ docker run --name mongodb \
 
 docker build -f Dockerfile-Test -t clothobserve-test .
 docker run --link=mongodb:mongodb \
-    -e CONFIG_OBJECT=configs.config.TestingConfig \
+    -e CONFIG_TYPE=TestingConfig \
     -e ROOT_PATH=/clothobserve/ \
     -e MONGODB_PORT=27017 \
     -v ${PWD}/tests:/tests \

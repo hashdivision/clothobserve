@@ -22,8 +22,8 @@ from werkzeug.contrib.fixers import ProxyFix
 def create_server() -> Flask:
     """Creates and initializes ``Flask`` server.
 
-    Configuration is loaded from class (path to it should be
-    in environment variable CONFIG_OBJECT), which should be
+    Configuration is loaded from class (name should be
+    in environment variable CONFIG_TYPE), which should be
     subclassed from ``Config`` class.
     Configuration in HTTP proxy environment (``ProxyFix``) is done
     because original Clothobserve app is behind the proxy.
@@ -32,7 +32,7 @@ def create_server() -> Flask:
         The ``Flask`` class object.
     """
     root_path = os.getenv('ROOT_PATH', '/clothobserve/')
-    config_object = os.getenv('CONFIG_OBJECT', 'configs.config.DevelopmentLocalConfig')
+    config_object = 'configs.config.' + os.getenv('CONFIG_TYPE', 'DevelopmentLocalConfig')
 
     server = Flask('clothobserve', root_path=root_path)
     server.config.from_object(config_object)
