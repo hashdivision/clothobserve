@@ -18,6 +18,18 @@ if [ -f FEATURE ]; then
 
     git push origin --delete "feature-${feature_name}"
     git branch -d "feature-${feature_name}"
+elif [ -f BUGFIX ]; then
+    bugfix_name=$(<BUGFIX)
+    git rm BUGFIX
+    git commit -m "Prepares bugfix ${bugfix_name} to be merged into development"
+    git push
+
+    git checkout development
+    git merge --no-ff "bugfix-${bugfix_name}"
+    git push origin development
+
+    git push origin --delete "bugfix-${bugfix_name}"
+    git branch -d "bugfix-${bugfix_name}"
 elif [ -f VERSION]; then
     version=$(<VERSION)
     git rm VERSION
@@ -57,5 +69,5 @@ elif [ -f HOTFIX]; then
     git push origin --delete "hotfix-${hotfix}"
     git branch -d "hotfix-${hotfix}"
 else
-    echo "Check your branch. This script will work on feature, release and hotfix branches only"
+    echo "Check your branch. This script will work on feature, bugfix, release and hotfix branches only"
 fi
