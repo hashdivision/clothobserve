@@ -14,5 +14,5 @@ git checkout -b "bugfix-$1" development
 git push -u origin HEAD
 echo "$1" > BUGFIX
 git add BUGFIX
-git commit -m "Creates bugfix branch for bugfix $1"
+git commit -m "Create bugfix branch for bugfix $1"
 git push

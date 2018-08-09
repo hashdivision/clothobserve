@@ -9,7 +9,7 @@ git pull origin development
 if [ -f FEATURE ]; then
     feature_name=$(<FEATURE)
     git rm FEATURE
-    git commit -m "Prepares feature ${feature_name} to be merged into development"
+    git commit -m "Prepare feature ${feature_name} to be merged into development"
     git push
 
     git checkout development
@@ -21,7 +21,7 @@ if [ -f FEATURE ]; then
 elif [ -f BUGFIX ]; then
     bugfix_name=$(<BUGFIX)
     git rm BUGFIX
-    git commit -m "Prepares bugfix ${bugfix_name} to be merged into development"
+    git commit -m "Prepare bugfix ${bugfix_name} to be merged into development"
     git push
 
     git checkout development
@@ -33,7 +33,7 @@ elif [ -f BUGFIX ]; then
 elif [ -f VERSION]; then
     version=$(<VERSION)
     git rm VERSION
-    git commit -m "Prepares release ${version} to be merged into master and development"
+    git commit -m "Prepare release ${version} to be merged into master and development"
     git push
 
     git pull origin master
@@ -52,7 +52,7 @@ elif [ -f VERSION]; then
 elif [ -f HOTFIX]; then
     hotfix=$(<HOTFIX)
     git rm HOTFIX
-    git commit -m "Prepares hotfix ${hotfix} to be merged into master and development"
+    git commit -m "Prepare hotfix ${hotfix} to be merged into master and development"
     git push
 
     git pull origin master

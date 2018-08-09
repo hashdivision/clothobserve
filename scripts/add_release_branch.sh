@@ -14,5 +14,5 @@ git checkout -b "release-$1" development
 git push -u origin HEAD
 echo "$1" > VERSION
 git add VERSION
-git commit -m "Creates release branch for version $1"
+git commit -m "Create release branch for version $1"
 git push

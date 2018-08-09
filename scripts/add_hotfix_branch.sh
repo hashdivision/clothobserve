@@ -14,5 +14,5 @@ git checkout -b "hotfix-$1" master
 git push -u origin HEAD
 echo "$1" > HOTFIX
 git add HOTFIX
-git commit -m "Creates hotfix branch $1"
+git commit -m "Create hotfix branch $1"
 git push
