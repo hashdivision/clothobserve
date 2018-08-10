@@ -18,6 +18,8 @@
 import os
 from flask import Flask
 from werkzeug.contrib.fixers import ProxyFix
+from core.database.mongo import MONGO_DB
+from core.mail.sender import MAIL
 
 def create_server() -> Flask:
     """Creates and initializes ``Flask`` server.
@@ -37,6 +39,8 @@ def create_server() -> Flask:
     server = Flask('clothobserve', root_path=root_path)
     server.config.from_object(config_object)
     server.wsgi_app = ProxyFix(server.wsgi_app, num_proxies=1)
+    MONGO_DB.init_app(server)
+    MAIL.init_app(server)
 
     return server
 
