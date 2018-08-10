@@ -17,8 +17,10 @@
 """
 import os
 from flask import Flask
+from flask_security import Security
 from werkzeug.contrib.fixers import ProxyFix
 from core.database.mongo import MONGO_DB
+from core.database.user_models import USER_DATASTORE
 from core.mail.sender import MAIL
 
 def create_server() -> Flask:
@@ -41,6 +43,7 @@ def create_server() -> Flask:
     server.wsgi_app = ProxyFix(server.wsgi_app, num_proxies=1)
     MONGO_DB.init_app(server)
     MAIL.init_app(server)
+    Security(server, USER_DATASTORE)
 
     return server
 
