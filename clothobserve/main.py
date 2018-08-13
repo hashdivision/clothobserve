@@ -1,8 +1,11 @@
 from flask import Response
 from flask_api import status
 from configs.config import create_server
+from configs.initialization import initialize
 
 SERVER = create_server()
+with server.app_context():
+    initialize(server)
 
 #: This response is only used for testing to make sure
 #: version is the right one and that app is working.
