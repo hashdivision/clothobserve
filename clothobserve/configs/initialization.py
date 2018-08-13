@@ -11,6 +11,7 @@
 
 """
 from flask import Flask
+from core.users.account import ACCOUNT_BP
 
 def initialize(server: Flask) -> None:
     """
@@ -41,4 +42,4 @@ def register_blueprints(server: Flask) -> None:
     """
     # TODO: Fill this docstring.
     """
-    pass
+    server.register_blueprint(ACCOUNT_BP, url_prefix="/account")
