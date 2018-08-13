@@ -4,8 +4,8 @@ from configs.config import create_server
 from configs.initialization import initialize
 
 SERVER = create_server()
-with server.app_context():
-    initialize(server)
+with SERVER.app_context():
+    initialize(SERVER)
 
 #: This response is only used for testing to make sure
 #: version is the right one and that app is working.
