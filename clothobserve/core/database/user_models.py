@@ -12,11 +12,17 @@
 """
 from datetime import datetime
 from flask_security.datastore import MongoEngineUserDatastore
+from flask_security.utils import hash_password
 from flask_security import UserMixin, RoleMixin
 from core.database.mongo import MONGO_DB
 
 class Role(MONGO_DB.Document, RoleMixin):
     """Role model for Clothobserve MongoDB."""
+
+    @staticmethod
+    def find_by_name(name: str):
+        """Search for role by it's unique name."""
+        return Role.objects(name=name).first()
 
     #: Name of the role is restricted to 32 symbols.
     #: It should be unique and descriptive.
@@ -27,6 +33,11 @@ class Role(MONGO_DB.Document, RoleMixin):
 
 class User(MONGO_DB.Document, UserMixin):
     """User model for Clothobserve MongoDB."""
+
+    @staticmethod
+    def find_by_email(email: str):
+        """Search for user with unique email."""
+        return User.objects(email=email).first()
 
     #: Email is restricted to 255 symbols (see ``RFC 3696``).
     #: It is the only mean of login via normal login form.
@@ -43,6 +54,13 @@ class User(MONGO_DB.Document, UserMixin):
     roles = MONGO_DB.ListField(MONGO_DB.ReferenceField(Role), default=[])
     #: User registration date.
     reg_date = MONGO_DB.DateTimeField(default=datetime.now)
+    #: Random hash that should be checked at
+    #: confirmation endpoint in order to confirm email.
+    confirm_hash = MONGO_DB.StringField()
+    #: Date of generation of confirm hash to check for expiration.
+    confirm_hash_date = MONGO_DB.DateTimeField()
+    #: This flag shows if user's email is confirmed.
+    confirmed = MONGO_DB.BooleanField(default=False)
     #: Last login time. Used for security.
     last_login_at = MONGO_DB.DateTimeField(default=datetime.now)
     #: Current login time. Used for security and to determine
@@ -57,6 +75,31 @@ class User(MONGO_DB.Document, UserMixin):
 
 class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
+
+    def create_new_user(self, email: str, password: str, \
+                        default_role: str = "user", \
+                        auto_confirm: bool = False) -> bool:
+        """
+        Creates new user with default username ``user[number_of_users_total]``.
+
+        :param email: unique email for new user.
+        :param password: plain text password that will be hashed.
+        :param default_role: every user must have 1 of the 4 default roles.
+        :param auto_confirm: should user's email be confirmed from the start.
+
+        Returns:
+            True, if new user is created. Otherwise - False.
+        """
+        if not User.find_by_email(email):
+            default_username = "user" + str(User.objects.count()+1)
+            user = self.create_user(email=email, password=hash_password(password), \
+                                            confirmed=auto_confirm, username=default_username)
+            if user:
+                self.add_role_to_user(user, Role.find_by_name(default_role))
+                return True
+
+        return False
+
 
     def add_role_to_user(self, user: User, role: Role) -> bool:
         """
