@@ -12,6 +12,7 @@
 """
 from datetime import datetime
 from flask_security.datastore import MongoEngineUserDatastore
+from flask_security.utils import hash_password
 from flask_security import UserMixin, RoleMixin
 from core.database.mongo import MONGO_DB
 
@@ -53,6 +54,13 @@ class User(MONGO_DB.Document, UserMixin):
     roles = MONGO_DB.ListField(MONGO_DB.ReferenceField(Role), default=[])
     #: User registration date.
     reg_date = MONGO_DB.DateTimeField(default=datetime.now)
+    #: Random hash that should be checked at
+    #: confirmation endpoint in order to confirm email.
+    confirm_hash = MONGO_DB.StringField()
+    #: Date of generation of confirm hash to check for expiration.
+    confirm_hash_date = MONGO_DB.DateTimeField()
+    #: This flag shows if user's email is confirmed.
+    confirmed = MONGO_DB.BooleanField(default=False)
     #: Last login time. Used for security.
     last_login_at = MONGO_DB.DateTimeField(default=datetime.now)
     #: Current login time. Used for security and to determine
