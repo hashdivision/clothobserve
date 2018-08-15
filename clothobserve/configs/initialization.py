@@ -10,7 +10,9 @@
     |
 
 """
+import os
 from flask import Flask
+from core.database.user_models import USER_DATASTORE
 
 def initialize(server: Flask) -> None:
     """
@@ -27,15 +29,31 @@ def initialize(server: Flask) -> None:
 
 def create_default_user_roles() -> None:
     """
-    # TODO: Fill this docstring.
+    Creates 4 main default roles:
+        - ``admin``
+        - ``tester``
+        - ``user``
+        - ``superuser``
     """
-    pass
+    USER_DATASTORE.find_or_create_role(name='admin', \
+                    description='Administrator of Clothobserve. Role with access to everything.')
+    USER_DATASTORE.find_or_create_role(name='tester', \
+                    description='Tester of Clothobserve. Has access to test methods.')
+    USER_DATASTORE.find_or_create_role(name='user', \
+                    description='User of Clothobserve.')
+    USER_DATASTORE.find_or_create_role(name='superuser', \
+                    description='Super user of Clothobserve. Has access to premium features')
+
 
 def create_admin_user() -> None:
     """
-    # TODO: Fill this docstring.
+    Creates admin user.
+    User is auto-confirmed by default and has the highest privileges.
     """
-    pass
+    email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
+    password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
+    USER_DATASTORE.create_new_user(email=email, password=password, \
+                    default_role="admin", auto_confirm=True)
 
 def register_blueprints(server: Flask) -> None:
     """
