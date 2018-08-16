@@ -13,6 +13,7 @@
 import os
 from flask import Flask
 from core.users.account import ACCOUNT_BP
+from core.user import USER_BP
 from core.database.user_models import USER_DATASTORE
 
 def initialize(server: Flask) -> None:
@@ -61,3 +62,4 @@ def register_blueprints(server: Flask) -> None:
     # TODO: Fill this docstring.
     """
     server.register_blueprint(ACCOUNT_BP, url_prefix="/account")
+    server.register_blueprint(USER_BP, url_prefix="/user")
