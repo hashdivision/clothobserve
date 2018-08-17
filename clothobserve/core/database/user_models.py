@@ -73,6 +73,28 @@ class User(MONGO_DB.Document, UserMixin):
     #: How many times user logged into the Clothobserve service.
     login_count = MONGO_DB.IntField()
 
+class Profile(MONGO_DB.Document):
+    """Profile information about users of Clothobserve."""
+
+    @staticmethod
+    def find_by_user(user: User):
+        """Search for Profile with User object."""
+        return Profile.objects(user=user).first()
+
+    #: Reference to user this personal information is about.
+    #: If user is deleted - this document is deleted too.
+    user = MONGO_DB.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE, \
+                                    unique=True, required=True)
+    #: Real name and surname of user.
+    name = MONGO_DB.StringField(max_length=64, default="")
+    #: Date of birth of user.
+    date_of_birth = MONGO_DB.DateTimeField()
+    #: A bit of information about user, that he writes himself.
+    about_me = MONGO_DB.StringField(max_length=200, default="")
+    #: Is user profile public and can be seen by other users.
+    #: By default user profile is private.
+    public = MONGO_DB.BooleanField(default=False)
+
 class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
 
@@ -96,6 +118,7 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
                                             confirmed=auto_confirm, username=default_username)
             if user:
                 self.add_role_to_user(user, Role.find_by_name(default_role))
+                Profile(user=user).save()
                 return True
 
         return False
