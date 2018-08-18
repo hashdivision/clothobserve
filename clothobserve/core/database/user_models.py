@@ -11,6 +11,7 @@
 
 """
 from datetime import datetime
+import mongoengine
 from flask_security.datastore import MongoEngineUserDatastore
 from flask_security.utils import hash_password
 from flask_security import UserMixin, RoleMixin
