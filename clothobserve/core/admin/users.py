@@ -2,7 +2,7 @@ from flask import Blueprint, Response, request
 from flask_api import status
 from core.decorators.auth import login_required, roles_required
 from core.database.user_models import USER_DATASTORE
-from utils.responses import SUCCESS, BAD_REQUEST, NOT_FOUND
+from utils.responses import SUCCESS, BAD_REQUEST
 
 ADMIN_USERS_BP = Blueprint("admin/users", __name__)
 
@@ -19,10 +19,9 @@ def register_endpoint() -> Response:
         role = "user"
         if "role" in request.form:
             role = request.form["role"]
-        
-        auto_confirm = request.form["auto_confirm"] == "True"
+
         if USER_DATASTORE.create_new_user(request.form["email"], request.form["password"], \
-                            default_role=role, auto_confirm=auto_confirm):
+                            default_role=role, auto_confirm=True):
             return SUCCESS
 
         return EMAIL_IS_REGISTERED
