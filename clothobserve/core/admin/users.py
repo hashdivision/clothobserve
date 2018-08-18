@@ -9,14 +9,14 @@ ADMIN_USERS_BP = Blueprint("admin/users", __name__)
 EMAIL_IS_REGISTERED = Response("Email Is Registered", status=status.HTTP_401_UNAUTHORIZED)
 USER_NOT_FOUND = Response("User Not Found", status=status.HTTP_404_NOT_FOUND)
 
-@login_required(silent=true)
-@roles_required("admin", silent=true)
 @ADMIN_USERS_BP.route("/register", methods=['POST'])
+@login_required(silent=True)
+@roles_required("admin", silent=True)
 def register_endpoint() -> Response:
-	"""
-	# TODO: Fill this docstring.
-	"""
-	if "email" in request.form and "password" in request.form:
+    """
+    # TODO: Fill this docstring.
+    """
+    if "email" in request.form and "password" in request.form:
         role = "user"
         if "role" in request.form:
             role = request.form["role"]
@@ -27,16 +27,16 @@ def register_endpoint() -> Response:
 
         return EMAIL_IS_REGISTERED
 
-	return BAD_REQUEST
+    return BAD_REQUEST
 
-@login_required(silent=true)
-@roles_required("admin", silent=true)
 @ADMIN_USERS_BP.route("/delete", methods=['POST'])
-def register_endpoint() -> Response:
-	"""
-	# TODO: Fill this docstring.
-	"""
-	if "email" in request.form:
+@login_required(silent=True)
+@roles_required("admin", silent=True)
+def delete_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
+    if "email" in request.form:
         user = User.find_by_email(request.form["email"])
         if not user:
             return USER_NOT_FOUND
@@ -44,4 +44,4 @@ def register_endpoint() -> Response:
         USER_DATASTORE.delete_user(user)
         return SUCCESS
 
-	return BAD_REQUEST
+    return BAD_REQUEST
