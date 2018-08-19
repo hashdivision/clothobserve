@@ -17,7 +17,7 @@ docker run --name mongodb \
     -d bitnami/mongodb:latest
 
 docker build -f Dockerfile-Dev-Server -t clothobserve-dev-server .
-docker run -p 127.0.0.1:43597:5000 \
+docker run --link=mongodb:mongodb -p 127.0.0.1:43597:5000 \
     -e CONFIG_TYPE=DevelopmentServerConfig \
     -e ROOT_PATH=/clothobserve/ \
     -e MONGODB_PORT=27017 \
