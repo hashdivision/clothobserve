@@ -31,6 +31,9 @@ def register_endpoint() -> Response:
 
 @ACCOUNT_BP.route("/signin", methods=['POST'])
 def signin_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
     if current_user.is_authenticated:
         return NOT_FOUND
 
@@ -50,6 +53,9 @@ def signin_endpoint() -> Response:
 
 @ACCOUNT_BP.route("/logout")
 def logout_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
     if current_user.is_authenticated:
         logout_user()
         return SUCCESS
