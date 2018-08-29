@@ -1,6 +1,6 @@
 """
-    clothobserve.core.decorators.auth
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clothobserve.endpoints.decorators.auth
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Module for custom auth decorators. To ensure endpoints are secured.
 
     :copyright: © 2018 HashDivision OU.
@@ -11,15 +11,12 @@
 
 """
 from functools import wraps
-from flask import abort, Response
-from flask_principal import Permission, RoleNeed
+from flask import abort
 from flask_api import status
+from flask_principal import Permission, RoleNeed
 from flask_security.core import current_user
-
-#: Response for case where user is not logged in while accessing endpoint.
-LOGIN_REQUIRED = Response("Login Required", status=status.HTTP_401_UNAUTHORIZED)
-#: Response for case where user has no permission (role needed) to access the endpoint.
-NO_PERMISSION = Response("No Permission", status=status.HTTP_403_FORBIDDEN)
+from data.constants.responses.decorators_auth import LOGIN_REQUIRED, \
+    NO_PERMISSION
 
 def login_required(silent: bool = False): # pylint: disable=inconsistent-return-statements
     """

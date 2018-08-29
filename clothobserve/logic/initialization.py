@@ -12,9 +12,9 @@
 """
 import os
 from flask import Flask
-from core.users.account import ACCOUNT_BP
-from core.admin.users import ADMIN_USERS_BP
-from core.database.user_models import USER_DATASTORE
+from endpoints.user.account import ACCOUNT_BP
+from endpoints.admin.users import ADMIN_USERS_BP
+from logic.user.datastore import USER_DATASTORE
 
 def initialize(server: Flask) -> None:
     """

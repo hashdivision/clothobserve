@@ -1,24 +1,23 @@
+from main import SERVER
 import unittest
 from flask import Response
-from flask.testing import FlaskClient
 from flask_security.core import current_user
-from main import SERVER
 
-def register(client: FlaskClient, email: str, password: str) -> Response:
+def register(client, email, password):
     """Fast method for using ``/account/register`` endpoint"""
     form_data = 'email=' + email +'&password=' + password
     return client.post('/account/register', data=form_data, content_type='application/x-www-form-urlencoded')
 
-def signin(client: FlaskClient, email: str, password: str) -> Response:
+def signin(client, email, password):
     """Fast method for using ``/account/signin`` endpoint"""
     form_data = 'email=' + email +'&password=' + password
     return client.post('/account/signin', data=form_data, content_type='application/x-www-form-urlencoded')
 
-def logout(client: FlaskClient) -> Response:
+def logout(client):
     """Fast method for using ``/account/logout`` endpoint"""
     return client.get('/account/logout')
 
-class UsersAccountTestCase(unittest.TestCase):
+class UserAccountTestCase(unittest.TestCase):
     """
     # TODO: Fill this docstring.
     """
@@ -33,18 +32,14 @@ class UsersAccountTestCase(unittest.TestCase):
         with SERVER.test_client() as client:
             register_result = register(client, self.__REGISTER_SUCCESS_EMAIL, self.__RANDOM_PASSWORD)
             self.assertEqual(register_result.status_code, 200)
-            self.assertEqual(register_result.get_data(as_text=True), "Success")
             self.assertTrue(current_user.is_authenticated)
             self.assertEqual(current_user.email, self.__REGISTER_SUCCESS_EMAIL)
 
             logout_result = logout(client)
             self.assertEqual(logout_result.status_code, 200)
-            self.assertEqual(logout_result.get_data(as_text=True), "Success")
             self.assertFalse(current_user.is_authenticated)
 
             check_result = signin(client, self.__REGISTER_SUCCESS_EMAIL, self.__RANDOM_PASSWORD)
             self.assertEqual(check_result.status_code, 200)
-            self.assertEqual(check_result.get_data(as_text=True), "Success")
             self.assertTrue(current_user.is_authenticated)
             self.assertEqual(current_user.email, self.__REGISTER_SUCCESS_EMAIL)
-            logout(client)

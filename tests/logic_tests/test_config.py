@@ -1,6 +1,6 @@
-import unittest
 import os
-from configs.config import create_server
+import unittest
+from logic.config import create_server
 
 class ConfigTestCase(unittest.TestCase):
     """
