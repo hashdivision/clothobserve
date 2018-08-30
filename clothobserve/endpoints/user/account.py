@@ -19,7 +19,7 @@ from data.constants.responses.user_account import EMAIL_IS_REGISTERED, \
     USER_INACTIVE, WRONG_CREDENTIALS, LOGGED_OUT
 from logic.user.datastore import USER_DATASTORE
 
-#: Blueprint of this authentication module.
+#: Blueprint of this account module.
 ACCOUNT_BP = Blueprint("account", __name__)
 
 @ACCOUNT_BP.route("/register", methods=['POST'])
