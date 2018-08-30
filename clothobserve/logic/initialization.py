@@ -50,12 +50,12 @@ def create_default_user_roles() -> None:
 def create_admin_user() -> None:
     """
     Creates admin user.
-    User is auto-confirmed by default and has the highest privileges.
+    User is confirmed by default and has the highest privileges.
     """
     email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
     password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
     USER_DATASTORE.create_new_user(email=email, password=password, \
-                    default_role="admin", auto_confirm=True)
+                                    role='admin', confirmed=True)
 
 def register_blueprints(server: Flask) -> None:
     """

@@ -19,29 +19,28 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
 
     def create_new_user(self, email: str, password: str, \
-                        default_role: str = "user", \
-                        auto_confirm: bool = False) -> bool:
+                        role: str = "user", confirmed: bool = False) -> User:
         """
         Creates new user with default username ``user[number_of_users_total]``.
 
         :param email: unique email for new user.
         :param password: plain text password that will be hashed.
-        :param default_role: every user must have 1 of the 4 default roles.
-        :param auto_confirm: should user's email be confirmed from the start.
+        :param role: every user must have 1 of the 4 default roles.
+        :param confirmed: should user's email be confirmed from the start.
 
         Returns:
             True, if new user is created. Otherwise - False.
         """
         if not User.find_by_email(email):
-            default_username = "user" + str(User.objects.count()+1)
+            username = "user" + str(User.objects.count()+1)
             user = self.create_user(email=email, password=hash_password(password), \
-                                    confirmed=auto_confirm, username=default_username)
+                                    confirmed=confirmed, username=username)
             if user:
-                self.add_role_to_user(user, Role.find_by_name(default_role))
+                self.add_role_to_user(user, Role.find_by_name(role))
                 Profile(user=user).save()
-                return True
+                return user
 
-        return False
+        return None
 
 
     def add_role_to_user(self, user: User, role: Role) -> bool:
