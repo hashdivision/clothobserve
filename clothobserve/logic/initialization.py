@@ -38,13 +38,13 @@ def create_default_user_roles() -> None:
         - ``superuser``
     """
     USER_DATASTORE.find_or_create_role(name='admin', \
-                    description='Administrator of Clothobserve. Role with access to everything.')
+                                        description='Administrator of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='tester', \
-                    description='Tester of Clothobserve. Has access to test methods.')
+                                        description='Tester of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='user', \
-                    description='User of Clothobserve.')
+                                        description='User of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='superuser', \
-                    description='Super user of Clothobserve. Has access to premium features')
+                                        description='Premium user of Clothobserve.')
 
 
 def create_admin_user() -> None:
