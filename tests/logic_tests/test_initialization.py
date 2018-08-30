@@ -24,11 +24,13 @@ class InitializationTestCase(unittest.TestCase):
         """
         admin_email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
         admin_password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
+        admin_username = os.getenv('ADMIN_USERNAME', 'Admin')
         admin_role = Role.find_by_name('admin')
         admin = User.find_by_email(admin_email)
 
         self.assertIsNotNone(admin)
         self.assertTrue(admin.confirmed)
+        self.assertEqual(admin.username, admin_username)
         self.assertIn(admin_role, admin.roles)
         with SERVER.app_context():
             self.assertTrue(verify_password(admin_password, admin.password))
