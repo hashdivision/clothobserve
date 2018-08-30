@@ -12,6 +12,7 @@
 """
 from datetime import datetime
 import mongoengine
+from mongoengine.queryset.visitor import Q
 from flask_security import UserMixin, RoleMixin
 from data.database.mongo import MONGO_DB
 
@@ -37,6 +38,11 @@ class User(MONGO_DB.Document, UserMixin):
     def find_by_email(email: str):
         """Search for user with unique email."""
         return User.objects(email=email).first()
+
+    @staticmethod
+    def find_by_username(username: str):
+        """Search for user with username."""
+        return User.objects(username=username).first()
 
     #: Email is restricted to 255 symbols (see ``RFC 3696``).
     #: It is the only mean of login via normal login form.
@@ -76,6 +82,11 @@ class Profile(MONGO_DB.Document):
     """Profile information about users of Clothobserve."""
 
     @staticmethod
+    def find_public_by_user(user: User):
+        """Search for public Profile with User object."""
+        return Profile.objects(Q(public=True) & Q(user=user)).first()
+
+    @staticmethod
     def find_by_user(user: User):
         """Search for Profile with User object."""
         return Profile.objects(user=user).first()
@@ -93,3 +104,12 @@ class Profile(MONGO_DB.Document):
     #: Is user profile public and can be seen by other users.
     #: By default user profile is private.
     public = MONGO_DB.BooleanField(default=False)
+
+    def to_json(self):
+        return '{"name":"' + self.name + '",' \
+            + '"date_of_birth":"' + str(self.date_of_birth) + '",' \
+            + '"about_me":"' + self.about_me + '",' \
+            + '"reg_date":"' + str(self.user.reg_date) + '",' \
+            + '"active":"' + str(self.user.active) + '",' \
+            + '"roles":' + str([str(r.name) for r in self.user.roles]) + ',' \
+            + '"username":"' + self.user.username + '"}'
