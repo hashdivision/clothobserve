@@ -1,5 +1,5 @@
 """
-    clothobserve.core.database.mongo
+    clothobserve.data.database.mongo
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     MongoEngine instance for managing MongoDB database.
 
