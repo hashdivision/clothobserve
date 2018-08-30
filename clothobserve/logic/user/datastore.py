@@ -42,7 +42,6 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return None
 
-
     def add_role_to_user(self, user: User, role: Role) -> bool:
         """
         Adds role to user if it is not in his roles yet.
@@ -98,6 +97,15 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
             return True
 
         return False
+
+    def change_profile_visibility(self, user: User, public: bool) -> None:
+        """
+        Changes visibility of user's profile.
+        """
+        if user:
+            profile = Profile.find_by_user(user)
+            profile.public = public
+            profile.save()
 
 #: Custom user datastore based on MongoEngineUserDatastore.
 USER_DATASTORE = ClothobserveUserDatastore(MONGO_DB, User, Role)
