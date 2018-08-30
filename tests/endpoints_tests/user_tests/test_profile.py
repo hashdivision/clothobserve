@@ -12,10 +12,19 @@ def user(client: FlaskClient, username: str) -> Response:
     """Fast method for using ``/profile/user/<username>`` endpoint"""
     return client.get('/profile/user/' + username)
 
+def root_profile(client: FlaskClient) -> Response:
+    """Fast method for using ``/profile/`` endpoint"""
+    return client.get('/profile/')
+
 def register(client: FlaskClient, email: str, password: str) -> None:
     """Fast method for using ``/account/register`` endpoint"""
     form_data = 'email=' + email +'&password=' + password
     client.post('/account/register', data=form_data, content_type='application/x-www-form-urlencoded')
+
+def signin(client: FlaskClient, email: str, password: str) -> Response:
+    """Fast method for using ``/account/signin`` endpoint"""
+    form_data = 'email=' + email +'&password=' + password
+    return client.post('/account/signin', data=form_data, content_type='application/x-www-form-urlencoded')
 
 class UserProfileTestCase(unittest.TestCase):
     """
@@ -43,4 +52,16 @@ class UserProfileTestCase(unittest.TestCase):
             USER_DATASTORE.change_profile_visibility(admin, public=False)
             failed_result = user(client, admin_username)
             self.assertEqual(failed_result.status_code, PROFILE_NOT_FOUND.status_code)
+
+    def test_root_profile_endpoint(self):
+        """
+        # TODO: Fill this docstring.
+        """
+        with SERVER.test_client() as client:
+            admin_email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
+            admin_password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
+
+            signin(client, admin_email, admin_password)
+            result = root_profile(client)
+            self.assertEqual(result.status_code, status.HTTP_200_OK)
             

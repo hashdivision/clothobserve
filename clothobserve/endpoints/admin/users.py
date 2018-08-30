@@ -36,7 +36,7 @@ def register_endpoint() -> Response:
             role = request.form["role"]
 
         if USER_DATASTORE.create_new_user(request.form["email"], request.form["password"], \
-                            default_role=role, auto_confirm=True):
+                                        role=role, confirmed=True):
             return '{"username":' + '"}'
 
         return EMAIL_IS_REGISTERED
