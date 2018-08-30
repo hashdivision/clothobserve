@@ -13,4 +13,4 @@ class MainTestCase(unittest.TestCase):
         """
         result = SERVER.test_client().get('/version')
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(result.get_data(as_text=True), "0.27.0")
+        self.assertEqual(result.get_data(as_text=True), '0.27.0')
