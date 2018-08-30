@@ -8,34 +8,34 @@ class ConfigTestCase(unittest.TestCase):
     We use ``create_server`` method and then check if ``CONFIG_TYPE`` is right.
     """
 
-    __PRODUCTION_CONFIG_CLASSPATH = 'ProductionConfig'
+    __PRODUCTION_CONFIG_CLASS = 'ProductionConfig'
     __PRODUCTION_CONFIG_EXPECTED_TYPE = 'production'
-    __DEVELOPMENT_SERVER_CONFIG_CLASSPATH = 'DevelopmentServerConfig'
+    __DEVELOPMENT_SERVER_CONFIG_CLASS = 'DevelopmentServerConfig'
     __DEVELOPMENT_SERVER_CONFIG_EXPECTED_TYPE = 'development-server'
-    __DEVELOPMENT_LOCAL_CONFIG_CLASSPATH = 'DevelopmentLocalConfig'
+    __DEVELOPMENT_LOCAL_CONFIG_CLASS = 'DevelopmentLocalConfig'
     __DEVELOPMENT_LOCAL_CONFIG_EXPECTED_TYPE = 'development-local'
-    __TESTING_CONFIG_CLASSPATH = 'TestingConfig'
+    __TESTING_CONFIG_CLASS = 'TestingConfig'
     __TESTING_CONFIG_EXPECTED_TYPE = 'testing'
 
     def tearDown(self):
-        os.environ['CONFIG_TYPE'] = 'TestingConfig'
+        os.environ['CONFIG_TYPE'] = self.__TESTING_CONFIG_CLASS
     
     def test_production_config(self):
-        os.environ['CONFIG_TYPE'] = self.__PRODUCTION_CONFIG_CLASSPATH
+        os.environ['CONFIG_TYPE'] = self.__PRODUCTION_CONFIG_CLASS
         server = create_server()
         self.assertEqual(server.config['CONFIG_TYPE'], self.__PRODUCTION_CONFIG_EXPECTED_TYPE)
     
     def test_development_server_config(self):
-        os.environ['CONFIG_TYPE'] = self.__DEVELOPMENT_SERVER_CONFIG_CLASSPATH
+        os.environ['CONFIG_TYPE'] = self.__DEVELOPMENT_SERVER_CONFIG_CLASS
         server = create_server()
         self.assertEqual(server.config['CONFIG_TYPE'], self.__DEVELOPMENT_SERVER_CONFIG_EXPECTED_TYPE)
     
     def test_development_local_config(self):
-        os.environ['CONFIG_TYPE'] = self.__DEVELOPMENT_LOCAL_CONFIG_CLASSPATH
+        os.environ['CONFIG_TYPE'] = self.__DEVELOPMENT_LOCAL_CONFIG_CLASS
         server = create_server()
         self.assertEqual(server.config['CONFIG_TYPE'], self.__DEVELOPMENT_LOCAL_CONFIG_EXPECTED_TYPE)
     
     def test_testing_config(self):
-        os.environ['CONFIG_TYPE'] = self.__TESTING_CONFIG_CLASSPATH
+        os.environ['CONFIG_TYPE'] = self.__TESTING_CONFIG_CLASS
         server = create_server()
         self.assertEqual(server.config['CONFIG_TYPE'], self.__TESTING_CONFIG_EXPECTED_TYPE)
