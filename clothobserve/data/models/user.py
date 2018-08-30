@@ -105,7 +105,7 @@ class Profile(MONGO_DB.Document):
     #: By default user profile is private.
     public = MONGO_DB.BooleanField(default=False)
 
-    def to_json(self):
+    def to_response_json(self):
         return '{"name":"' + self.name + '",' \
             + '"date_of_birth":"' + str(self.date_of_birth) + '",' \
             + '"about_me":"' + self.about_me + '",' \
