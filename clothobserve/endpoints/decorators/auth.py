@@ -41,6 +41,20 @@ def login_required(silent: bool = False): # pylint: disable=inconsistent-return-
 
     return wrapper
 
+def anonymous_required(function): # pylint: disable=inconsistent-return-statements
+    """
+    Decorator for endpoints that require user not to be logged in.
+    404 HTTP code is sent if user is logged in.
+    """
+    @wraps(function)
+    def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
+        if current_user.is_authenticated:
+            abort(status.HTTP_404_NOT_FOUND)
+
+        return function(*args, **kwargs)
+
+    return decorated_view
+
 def roles_accepted(*roles, silent: bool = False): # pylint: disable=inconsistent-return-statements
     """
     Decorator for endpoints that require user to
