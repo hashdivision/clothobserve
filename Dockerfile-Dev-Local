@@ -1,4 +1,4 @@
-FROM python:3.6-alpine3.7
+FROM python:3.7-alpine3.7
 LABEL maintainer="Igor Nehoroshev <harry@hashdivision.com>"
 RUN mkdir -p /clothobserve
 COPY requirements.txt /requirements.txt
@@ -7,4 +7,4 @@ RUN pip3 install -r /requirements.txt
 
 EXPOSE 5000
 
-CMD gunicorn --reload -b 0.0.0.0:5000 main:SERVER
+CMD sleep 10 && gunicorn --reload -b 0.0.0.0:5000 main:SERVER

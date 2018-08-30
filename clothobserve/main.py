@@ -1,7 +1,19 @@
+"""
+    clothobserve.main
+    ~~~~~~~~~~~~~~~~~
+    # TODO: Fill this docstring.
+
+    :copyright: © 2018 HashDivision OU.
+
+    :license: Apache License 2.0, see *LICENSE* for more details.
+
+    |
+
+"""
 from flask import Response
 from flask_api import status
-from configs.config import create_server
-from configs.initialization import initialize
+from logic.config import create_server
+from logic.initialization import initialize
 
 SERVER = create_server()
 with SERVER.app_context():

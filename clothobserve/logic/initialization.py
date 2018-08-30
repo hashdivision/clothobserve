@@ -12,9 +12,9 @@
 """
 import os
 from flask import Flask
-from core.users.account import ACCOUNT_BP
-from core.admin.users import ADMIN_USERS_BP
-from core.database.user_models import USER_DATASTORE
+from endpoints.user.account import ACCOUNT_BP
+from endpoints.admin.users import ADMIN_USERS_BP
+from logic.user.datastore import USER_DATASTORE
 
 def initialize(server: Flask) -> None:
     """
@@ -38,24 +38,24 @@ def create_default_user_roles() -> None:
         - ``superuser``
     """
     USER_DATASTORE.find_or_create_role(name='admin', \
-                    description='Administrator of Clothobserve. Role with access to everything.')
+                                        description='Administrator of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='tester', \
-                    description='Tester of Clothobserve. Has access to test methods.')
+                                        description='Tester of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='user', \
-                    description='User of Clothobserve.')
+                                        description='User of Clothobserve.')
     USER_DATASTORE.find_or_create_role(name='superuser', \
-                    description='Super user of Clothobserve. Has access to premium features')
+                                        description='Premium user of Clothobserve.')
 
 
 def create_admin_user() -> None:
     """
     Creates admin user.
-    User is auto-confirmed by default and has the highest privileges.
+    User is confirmed by default and has the highest privileges.
     """
     email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
     password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
     USER_DATASTORE.create_new_user(email=email, password=password, \
-                    default_role="admin", auto_confirm=True)
+                                    role='admin', confirmed=True)
 
 def register_blueprints(server: Flask) -> None:
     """

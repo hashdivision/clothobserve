@@ -1,6 +1,6 @@
 """
-    clothobserve.core.mail.sender
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clothobserve.logic.mail.sender
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Sending mail to recipients through Flask-Mail.
 
     :copyright: © 2018 HashDivision OU.
