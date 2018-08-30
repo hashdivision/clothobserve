@@ -25,8 +25,7 @@ def root_profile_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
     """
-    user = User.find_by_email(current_user.email)
-    return Profile.find_by_user(user).to_response_json()
+    return Profile.find_by_user(current_user._get_current_object()).to_response_json()
 
 @PROFILE_BP.route("/user/<username>")
 @login_required(silent=True)
