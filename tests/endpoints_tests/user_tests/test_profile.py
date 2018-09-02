@@ -3,10 +3,15 @@ import unittest
 from flask import Response
 from flask.testing import FlaskClient
 from flask_api import status
+from flask_security.core import current_user
 from main import SERVER
 from data.models.user import User
 from data.constants.responses.user_profile import PROFILE_NOT_FOUND
 from logic.user.datastore import USER_DATASTORE
+
+def visibility(client: FlaskClient, state: int) -> Response:
+    """Fast method for using ``/profile/visibility/<int: state>`` endpoint"""
+    return client.get('/profile/visibility/' + str(state))
 
 def user(client: FlaskClient, username: str) -> Response:
     """Fast method for using ``/profile/user/<username>`` endpoint"""
@@ -33,6 +38,9 @@ class UserProfileTestCase(unittest.TestCase):
 
     __RANDOM_PROFILE_TEST_EMAIL = 'random.profile.test@example.com'
     __RANDOM_PASSWORD = 'RandomPassword'
+    __FALSE = 0
+    __TRUE = 1
+    __TRUE_BIG = 253567
 
     def test_user_endpoint(self):
         """
@@ -64,4 +72,22 @@ class UserProfileTestCase(unittest.TestCase):
             signin(client, admin_email, admin_password)
             result = root_profile(client)
             self.assertEqual(result.status_code, status.HTTP_200_OK)
-            
+
+    def test_visibility_endpoint(self):
+        """
+        # TODO: Fill this docstring.
+        """
+        with SERVER.test_client() as client:
+            admin_email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
+            admin_password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
+
+            signin(client, admin_email, admin_password)
+
+            visibility(client, self.__TRUE)
+            self.assertTrue(current_user.profile.public)
+            visibility(client, self.__FALSE)
+            self.assertFalse(current_user.profile.public)
+            visibility(client, self.__TRUE_BIG)
+            self.assertTrue(current_user.profile.public)
+
+            visibility(client, self.__FALSE)
