@@ -37,7 +37,10 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
                                     confirmed=confirmed, username=username)
             if user:
                 self.add_role_to_user(user, Role.find_by_name(role))
-                Profile(user=user).save()
+                profile = Profile(user=user)
+                profile.save()
+                user.profile = profile
+                user.save()
                 return user
 
         return None
@@ -103,7 +106,7 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
         Changes visibility of user's profile.
         """
         if user:
-            profile = Profile.find_by_user(user)
+            profile = user.profile
             profile.public = public
             profile.save()
 
