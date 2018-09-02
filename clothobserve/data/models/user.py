@@ -77,24 +77,16 @@ class User(MONGO_DB.Document, UserMixin):
     current_login_ip = MONGO_DB.StringField()
     #: How many times user logged into the Clothobserve service.
     login_count = MONGO_DB.IntField()
+    #: Profile reference for fast access.
+    profile = MONGO_DB.ReferenceField('Profile', unique=True)
 
 class Profile(MONGO_DB.Document):
     """Profile information about users of Clothobserve."""
 
-    @staticmethod
-    def find_public_by_user(user: User):
-        """Search for public Profile with User object."""
-        return Profile.objects(Q(public=True) & Q(user=user)).first()
-
-    @staticmethod
-    def find_by_user(user: User):
-        """Search for Profile with User object."""
-        return Profile.objects(user=user).first()
-
     #: Reference to user this personal information is about.
     #: If user is deleted - this document is deleted too.
-    user = MONGO_DB.ReferenceField(User, reverse_delete_rule=mongoengine.CASCADE, \
-                                    unique=True, required=True)
+    user = MONGO_DB.LazyReferenceField(User, reverse_delete_rule=mongoengine.CASCADE, \
+                                    unique=True, required=True, passthrough=True)
     #: Real name and surname of user.
     name = MONGO_DB.StringField(max_length=64, default="")
     #: Date of birth of user.
@@ -107,6 +99,7 @@ class Profile(MONGO_DB.Document):
 
     def to_response_json(self):
         return '{"name":"' + self.name + '",' \
+            + '"public":' + "true" if self.public else "false" + ',' \
             + '"date_of_birth":"' + str(self.date_of_birth) + '",' \
             + '"about_me":"' + self.about_me + '",' \
             + '"reg_date":"' + str(self.user.reg_date) + '",' \
