@@ -80,6 +80,16 @@ class User(MONGO_DB.Document, UserMixin):
     #: Profile reference for fast access.
     profile = MONGO_DB.ReferenceField('Profile', unique=True)
 
+    def create_profile_json(self):
+        return '{"name":"' + self.profile.name + '",' \
+            + '"public":' + "true" if self.profile.public else "false" + ',' \
+            + '"date_of_birth":"' + str(self.profile.date_of_birth) + '",' \
+            + '"about_me":"' + self.profile.about_me + '",' \
+            + '"reg_date":"' + str(self.reg_date) + '",' \
+            + '"active":"' + str(self.active) + '",' \
+            + '"roles":' + str([str(r.name) for r in self.roles]) + ',' \
+            + '"username":"' + self.username + '"}'
+
 class Profile(MONGO_DB.Document):
     """Profile information about users of Clothobserve."""
 
@@ -96,13 +106,3 @@ class Profile(MONGO_DB.Document):
     #: Is user profile public and can be seen by other users.
     #: By default user profile is private.
     public = MONGO_DB.BooleanField(default=False)
-
-    def to_response_json(self):
-        return '{"name":"' + self.name + '",' \
-            + '"public":' + "true" if self.public else "false" + ',' \
-            + '"date_of_birth":"' + str(self.date_of_birth) + '",' \
-            + '"about_me":"' + self.about_me + '",' \
-            + '"reg_date":"' + str(self.user.reg_date) + '",' \
-            + '"active":"' + str(self.user.active) + '",' \
-            + '"roles":' + str([str(r.name) for r in self.user.roles]) + ',' \
-            + '"username":"' + self.user.username + '"}'

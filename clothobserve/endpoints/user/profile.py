@@ -27,7 +27,7 @@ def root_profile_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
     """
-    return current_user.profile.to_response_json()
+    return current_user.create_profile_json()
 
 @PROFILE_BP.route("/user/<username>")
 @login_required(silent=True)
@@ -37,7 +37,7 @@ def user_endpoint(username: str) -> Response:
     """
     user = User.find_by_username(username)
     if user and user.profile.public:
-        return user.profile.to_response_json()
+        return user.create_profile_json()
 
     return PROFILE_NOT_FOUND
 
