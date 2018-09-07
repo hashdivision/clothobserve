@@ -17,3 +17,7 @@ from flask_api import status
 PROFILE_NOT_FOUND = Response("Profile Not Found", status=status.HTTP_404_NOT_FOUND)
 #: Response for successful profile visibility change.
 VISIBILITY_CHANGE_SUCCESS = Response("Visibility Changed", status=status.HTTP_200_OK)
+#: Response for profile which visibility is public.
+PUBLIC = Response("public", status=status.HTTP_200_OK)
+#: Response for profile which visibility is private.
+PRIVATE = Response("private", status=status.HTTP_200_OK)

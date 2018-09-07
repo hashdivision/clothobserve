@@ -6,12 +6,16 @@ from flask_api import status
 from flask_security.core import current_user
 from main import SERVER
 from data.models.user import User
-from data.constants.responses.user_profile import PROFILE_NOT_FOUND
+from data.constants.responses.user_profile import PROFILE_NOT_FOUND, PRIVATE, PUBLIC
 from logic.user.datastore import USER_DATASTORE
 
-def visibility(client: FlaskClient, state: int) -> Response:
+def visibility(client: FlaskClient) -> Response:
+    """Fast method for using ``/profile/visibility`` endpoint"""
+    return client.get('/profile/visibility')
+
+def visibility_change(client: FlaskClient, state: int) -> Response:
     """Fast method for using ``/profile/visibility/<int: state>`` endpoint"""
-    return client.get('/profile/visibility/' + str(state))
+    return client.post('/profile/visibility/' + str(state))
 
 def user(client: FlaskClient, username: str) -> Response:
     """Fast method for using ``/profile/user/<username>`` endpoint"""
@@ -83,11 +87,19 @@ class UserProfileTestCase(unittest.TestCase):
 
             signin(client, admin_email, admin_password)
 
-            visibility(client, self.__TRUE)
+            visibility_change(client, self.__TRUE)
             self.assertTrue(current_user.profile.public)
-            visibility(client, self.__FALSE)
-            self.assertFalse(current_user.profile.public)
-            visibility(client, self.__TRUE_BIG)
-            self.assertTrue(current_user.profile.public)
+            public_visibility_result = visibility(client)
+            self.assertEqual(public_visibility_result.get_data(as_text=True), PUBLIC.get_data(as_text=True))
 
-            visibility(client, self.__FALSE)
+            visibility_change(client, self.__FALSE)
+            self.assertFalse(current_user.profile.public)
+            private_visibility_result = visibility(client)
+            self.assertEqual(private_visibility_result.get_data(as_text=True), PRIVATE.get_data(as_text=True))
+
+            visibility_change(client, self.__TRUE_BIG)
+            self.assertTrue(current_user.profile.public)
+            public_visibility_big_result = visibility(client)
+            self.assertEqual(public_visibility_big_result.get_data(as_text=True), PUBLIC.get_data(as_text=True))
+
+            visibility_change(client, self.__FALSE)

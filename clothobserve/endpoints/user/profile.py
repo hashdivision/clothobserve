@@ -13,9 +13,9 @@
 from flask import Blueprint, Response
 from flask_security.core import current_user
 from endpoints.decorators.auth import login_required
-from data.models.user import User, Profile
+from data.models.user import User
 from data.constants.responses.user_profile import PROFILE_NOT_FOUND, \
-    VISIBILITY_CHANGE_SUCCESS
+    VISIBILITY_CHANGE_SUCCESS, PUBLIC, PRIVATE
 from logic.user.datastore import USER_DATASTORE
 
 #: Blueprint of this profile module.
@@ -41,9 +41,17 @@ def user_endpoint(username: str) -> Response:
 
     return PROFILE_NOT_FOUND
 
-@PROFILE_BP.route("/visibility/<int:state>")
+@PROFILE_BP.route("/visibility")
 @login_required(silent=True)
-def visibility_endpoint(state: int) -> Response:
+def visibility_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
+    return PUBLIC if current_user.profile.public else PRIVATE
+
+@PROFILE_BP.route("/visibility/<int:state>", methods=['POST'])
+@login_required(silent=True)
+def visibility_change_endpoint(state: int) -> Response:
     """
     # TODO: Fill this docstring.
     """
