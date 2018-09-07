@@ -33,7 +33,7 @@ def form_required(*form_keys): # pylint: disable=inconsistent-return-statements
 
     return wrapper
 
-def form_fields_length(**fields_length): # pylint: disable=inconsistent-return-statements
+def form_fields_length(**form_fields_length): # pylint: disable=inconsistent-return-statements
     """
     Decorator for endpoints that have maximum length
     for form fields which should not be exceeded.
@@ -42,7 +42,7 @@ def form_fields_length(**fields_length): # pylint: disable=inconsistent-return-s
     def wrapper(function): # pylint: disable=missing-docstring
         @wraps(function)
         def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
-            for key, value in fields_length.items():
+            for key, value in form_fields_length.items():
                 if len(request.form[key]) > value:
                     abort(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
 
