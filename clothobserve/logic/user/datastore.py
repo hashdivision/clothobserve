@@ -40,6 +40,7 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
                 profile = Profile(user=user)
                 profile.save()
                 user.profile = profile
+                user.create_profile_json()
                 user.save()
                 return user
 
@@ -114,6 +115,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
             profile = user.profile
             profile.public = public
             profile.save()
+            user.create_profile_json()
+            user.save()
 
 #: Custom user datastore based on MongoEngineUserDatastore.
 USER_DATASTORE = ClothobserveUserDatastore(MONGO_DB, User, Role)

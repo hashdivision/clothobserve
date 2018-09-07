@@ -59,6 +59,7 @@ def create_admin_user() -> None:
         admin = USER_DATASTORE.create_new_user(email=email, password=password, \
                                                 role='admin', confirmed=True)
         admin.username = os.getenv('ADMIN_USERNAME', 'Admin')
+        admin.create_profile_json()
         admin.save()
 
 def register_blueprints(server: Flask) -> None:

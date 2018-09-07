@@ -78,10 +78,12 @@ class User(MONGO_DB.Document, UserMixin):
     login_count = MONGO_DB.IntField()
     #: Profile reference for fast access.
     profile = MONGO_DB.ReferenceField('Profile', unique=True)
+    #: JSON of profile information for other users to see.
+    profile_json = MONGO_DB.StringField()
 
-    def create_profile_json(self):
-        """JSON of profile information for other users to see."""
-        return '{"name":"' + self.profile.name + '",' \
+    def create_profile_json(self) -> None:
+        """Creates cached JSON string in profile_json."""
+        self.profile_json = '{"name":"' + self.profile.name + '",' \
             + '"public":' + "true" if self.profile.public else "false" + ',' \
             + '"date_of_birth":"' + str(self.profile.date_of_birth) + '",' \
             + '"about_me":"' + self.profile.about_me + '",' \
@@ -89,6 +91,32 @@ class User(MONGO_DB.Document, UserMixin):
             + '"active":"' + str(self.active) + '",' \
             + '"roles":' + str([str(r.name) for r in self.roles]) + ',' \
             + '"username":"' + self.username + '"}'
+
+    def update_profile(self, name: str, date_of_birth: datetime, \
+                        about_me: str, username: str) -> None:
+        """Updates user profile if everything is ok with arguments."""
+        updated = False
+        if name and name != self.profile.name and len(name.split()) == 2:
+            self.profile.name = name
+            updated = True
+
+        if date_of_birth and date_of_birth != self.profile.date_of_birth:
+            self.profile.date_of_birth = date_of_birth
+            updated = True
+
+        if about_me and about_me != self.profile.about_me:
+            self.profile.about_me = about_me
+            updated = True
+
+        if username and username != self.username and ' ' not in username \
+                    and username.isalnum():
+            self.username = username
+            updated = True
+
+        if updated:
+            self.create_profile_json()
+            self.profile.save()
+            self.save()
 
 class Profile(MONGO_DB.Document):
     """Profile information about users of Clothobserve."""
