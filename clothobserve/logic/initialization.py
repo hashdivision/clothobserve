@@ -12,6 +12,7 @@
 """
 import os
 from flask import Flask
+from data.models.user import User
 from endpoints.user.account import ACCOUNT_BP
 from endpoints.user.profile import PROFILE_BP
 from endpoints.admin.users import ADMIN_USERS_BP
@@ -54,11 +55,11 @@ def create_admin_user() -> None:
     """
     email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
     password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
-    admin = USER_DATASTORE.create_new_user(email=email, password=password, \
-                                            role='admin', confirmed=True)
-
-    admin.username = os.getenv('ADMIN_USERNAME', 'Admin')
-    admin.save()
+    if not User.find_by_email(email):
+        admin = USER_DATASTORE.create_new_user(email=email, password=password, \
+                                                role='admin', confirmed=True)
+        admin.username = os.getenv('ADMIN_USERNAME', 'Admin')
+        admin.save()
 
 def register_blueprints(server: Flask) -> None:
     """
