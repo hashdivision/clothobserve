@@ -44,7 +44,7 @@ def form_fields_length(**fields_length): # pylint: disable=inconsistent-return-s
         def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
             for key, value in fields_length.items():
                 if len(request.form[key]) > value:
-                    abort(status.HTTP_400_BAD_REQUEST)
+                    abort(status.HTTP_413_REQUEST_ENTITY_TOO_LARGE)
 
             return function(*args, **kwargs)
 
