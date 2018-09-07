@@ -39,6 +39,7 @@ def register_endpoint() -> Response:
         Fail (401 UNAUTHORIZED): Email Is Registered.
         Fail (404 NOT FOUND): if logged in user uses this endpoint.
         Fail (400 BAD REQUEST): if form does not contain email and password
+        Fail (413 REQUEST ENTITY TOO LARGE): if form fields have wrong length.
     """
     user = USER_DATASTORE.create_new_user(request.form["email"], request.form["password"])
     if user:
@@ -64,7 +65,8 @@ def signin_endpoint() -> Response:
         Fail (403 FORBIDDEN): User Is Inactive.
         Fail (401 UNAUTHORIZED): Wrong Credentials.
         Fail (404 NOT FOUND): if logged in user uses this endpoint.
-        Fail (400 BAD REQUEST): if form does not contain email and password
+        Fail (400 BAD REQUEST): if form does not contain email and password.
+        Fail (413 REQUEST ENTITY TOO LARGE): if form fields have wrong length.
     """
     user = User.find_by_email(request.form["email"])
     if user and verify_password(request.form["password"], user.password):
