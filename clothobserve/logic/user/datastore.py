@@ -45,7 +45,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return None
 
-    def add_role_to_user(self, user: User, role: Role) -> bool:
+    @staticmethod
+    def add_role_to_user(user: User, role: Role) -> bool:
         """
         Adds role to user if it is not in his roles yet.
 
@@ -59,7 +60,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def remove_role_from_user(self, user: User, role: Role) -> bool:
+    @staticmethod
+    def remove_role_from_user(user: User, role: Role) -> bool:
         """
         Removes role from user if it is in his roles.
 
@@ -73,7 +75,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def deactivate_user(self, user: User) -> bool:
+    @staticmethod
+    def deactivate_user(user: User) -> bool:
         """
         Deactivates user if he is active.
 
@@ -87,7 +90,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def activate_user(self, user: User) -> bool:
+    @staticmethod
+    def activate_user(user: User) -> bool:
         """
         Activates user if he is inactive.
 
@@ -101,7 +105,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def change_profile_visibility(self, user: User, public: bool) -> None:
+    @staticmethod
+    def change_profile_visibility(user: User, public: bool) -> None:
         """
         Changes visibility of user's profile.
         """
