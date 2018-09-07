@@ -33,7 +33,7 @@ def form_required(*form_keys): # pylint: disable=inconsistent-return-statements
 
     return wrapper
 
-def form_fields_length(**form_fields_length): # pylint: disable=inconsistent-return-statements
+def form_fields_max_length(**form_fields_length): # pylint: disable=inconsistent-return-statements
     """
     Decorator for endpoints that have maximum length
     for form fields which should not be exceeded.

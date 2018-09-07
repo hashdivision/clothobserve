@@ -13,7 +13,7 @@
 from flask import Blueprint, Response, request, abort
 from flask_security.utils import login_user, logout_user, verify_password
 from endpoints.decorators.auth import login_required, anonymous_required
-from endpoints.decorators.data import form_required, form_fields_length
+from endpoints.decorators.data import form_required, form_fields_max_length
 from data.models.user import User
 from data.constants.responses.user_account import EMAIL_IS_REGISTERED, \
     USER_INACTIVE, WRONG_CREDENTIALS, LOGGED_OUT
@@ -25,7 +25,7 @@ ACCOUNT_BP = Blueprint("account", __name__)
 @ACCOUNT_BP.route("/register", methods=['POST'])
 @anonymous_required
 @form_required("email", "password")
-@form_fields_length(email=255, password=255)
+@form_fields_max_length(email=255, password=255)
 def register_endpoint() -> Response:
     """
     Registration POST endpoint (**/account/register**) for account registration.
@@ -51,7 +51,7 @@ def register_endpoint() -> Response:
 @ACCOUNT_BP.route("/signin", methods=['POST'])
 @anonymous_required
 @form_required("email", "password")
-@form_fields_length(email=255, password=255)
+@form_fields_max_length(email=255, password=255)
 def signin_endpoint() -> Response:
     """
     Sign in POST endpoint (**/account/signin**) for sign in to account.
@@ -95,7 +95,7 @@ def logout_endpoint() -> Response:
 @ACCOUNT_BP.route("/password/restore")
 @anonymous_required
 @form_required("email")
-@form_fields_length(email=255)
+@form_fields_max_length(email=255)
 def password_restore_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
@@ -105,7 +105,7 @@ def password_restore_endpoint() -> Response:
 @ACCOUNT_BP.route("/password/change", methods=['POST'])
 @login_required(silent=True)
 @form_required("old_password", "new_password")
-@form_fields_length(old_password=255, new_password=255)
+@form_fields_max_length(old_password=255, new_password=255)
 def password_change_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
