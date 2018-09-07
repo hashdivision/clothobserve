@@ -1,7 +1,7 @@
 """
     clothobserve.endpoints.user.account
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Authorization endpoints for user account (register, sign in, logout).
 
     :copyright: © 2018 HashDivision OU.
 
@@ -27,7 +27,17 @@ ACCOUNT_BP = Blueprint("account", __name__)
 @form_required("email", "password")
 def register_endpoint() -> Response:
     """
-    # TODO: Fill this docstring.
+    Registration POST endpoint (**/account/register**) for account registration.
+    You MUST not be logged in to use it.
+    Requires form data:
+        - email
+        - password
+    
+    Returns:
+        Success (200 OK): JSON string with username.
+        Fail (401 UNAUTHORIZED): Email Is Registered.
+        Fail (404 NOT FOUND): if logged in user uses this endpoint.
+        Fail (400 BAD REQUEST): if form does not contain email and password
     """
     user = USER_DATASTORE.create_new_user(request.form["email"], request.form["password"])
     if user:
@@ -41,7 +51,18 @@ def register_endpoint() -> Response:
 @form_required("email", "password")
 def signin_endpoint() -> Response:
     """
-    # TODO: Fill this docstring.
+    Sign in POST endpoint (**/account/signin**) for sign in to account.
+    You MUST not be logged in to use it.
+    Requires form data:
+        - email
+        - password
+    
+    Returns:
+        Success (200 OK): JSON string with username.
+        Fail (403 FORBIDDEN): User Is Inactive.
+        Fail (401 UNAUTHORIZED): Wrong Credentials.
+        Fail (404 NOT FOUND): if logged in user uses this endpoint.
+        Fail (400 BAD REQUEST): if form does not contain email and password
     """
     user = User.find_by_email(request.form["email"])
     if user and verify_password(request.form["password"], user.password):
@@ -57,7 +78,12 @@ def signin_endpoint() -> Response:
 @login_required(silent=True)
 def logout_endpoint() -> Response:
     """
-    # TODO: Fill this docstring.
+    Logout GET endpoint (**/account/logout**) for logout.
+    You MUST be logged in to use it.
+    
+    Returns:
+        Success (200 OK): Goodbye.
+        Fail (404 NOT FOUND): if not logged in user uses this endpoint.
     """
     logout_user()
     return LOGGED_OUT
