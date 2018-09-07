@@ -32,3 +32,22 @@ def form_required(*form_keys): # pylint: disable=inconsistent-return-statements
         return decorated_view
 
     return wrapper
+
+def form_fields_length(**fields_length): # pylint: disable=inconsistent-return-statements
+    """
+    Decorator for endpoints that have maximum length
+    for form fields which should not be exceeded.
+    400 HTTP code is sent if one of fields has not appropriate length.
+    """
+    def wrapper(function): # pylint: disable=missing-docstring
+        @wraps(function)
+        def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
+            for key, value in fields_length.items():
+                if len(request.form[key]) > value:
+                    abort(status.HTTP_400_BAD_REQUEST)
+
+            return function(*args, **kwargs)
+
+        return decorated_view
+
+    return wrapper
