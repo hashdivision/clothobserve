@@ -30,9 +30,9 @@ def register_endpoint() -> Response:
     Registration POST endpoint (**/account/register**) for account registration.
     You MUST not be logged in to use it.
     Requires form data:
-        - email
-        - password
-    
+    - email
+    - password
+
     Returns:
         Success (200 OK): JSON string with username.
         Fail (401 UNAUTHORIZED): Email Is Registered.
@@ -54,9 +54,9 @@ def signin_endpoint() -> Response:
     Sign in POST endpoint (**/account/signin**) for sign in to account.
     You MUST not be logged in to use it.
     Requires form data:
-        - email
-        - password
-    
+    - email
+    - password
+
     Returns:
         Success (200 OK): JSON string with username.
         Fail (403 FORBIDDEN): User Is Inactive.
@@ -80,7 +80,7 @@ def logout_endpoint() -> Response:
     """
     Logout GET endpoint (**/account/logout**) for logout.
     You MUST be logged in to use it.
-    
+
     Returns:
         Success (200 OK): Goodbye.
         Fail (404 NOT FOUND): if not logged in user uses this endpoint.
