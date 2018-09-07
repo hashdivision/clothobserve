@@ -12,7 +12,6 @@
 """
 from datetime import datetime
 import mongoengine
-from mongoengine.queryset.visitor import Q
 from flask_security import UserMixin, RoleMixin
 from data.database.mongo import MONGO_DB
 
@@ -81,6 +80,7 @@ class User(MONGO_DB.Document, UserMixin):
     profile = MONGO_DB.ReferenceField('Profile', unique=True)
 
     def create_profile_json(self):
+        """JSON of profile information for other users to see."""
         return '{"name":"' + self.profile.name + '",' \
             + '"public":' + "true" if self.profile.public else "false" + ',' \
             + '"date_of_birth":"' + str(self.profile.date_of_birth) + '",' \
