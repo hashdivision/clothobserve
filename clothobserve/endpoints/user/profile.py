@@ -10,12 +10,13 @@
     |
 
 """
-from flask import Blueprint, Response
+from flask import Blueprint, Response, abort
 from flask_security.core import current_user
 from endpoints.decorators.auth import login_required
+from endpoints.decorators.data import form_required, form_fields_length
 from data.models.user import User
 from data.constants.responses.user_profile import PROFILE_NOT_FOUND, \
-    VISIBILITY_CHANGE_SUCCESS, PUBLIC, PRIVATE
+    PUBLIC, PRIVATE
 from logic.user.datastore import USER_DATASTORE
 
 #: Blueprint of this profile module.
@@ -23,7 +24,7 @@ PROFILE_BP = Blueprint("profile", __name__)
 
 @PROFILE_BP.route("/")
 @login_required(silent=True)
-def root_profile_endpoint() -> Response:
+def own_profile_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
     """
@@ -56,4 +57,14 @@ def visibility_change_endpoint(state: int) -> Response:
     # TODO: Fill this docstring.
     """
     USER_DATASTORE.change_profile_visibility(current_user, public=bool(state))
-    return VISIBILITY_CHANGE_SUCCESS
+    return PUBLIC if state else PRIVATE
+
+@PROFILE_BP.route("/change", methods=['POST'])
+@login_required(silent=True)
+@form_required("name", "date_of_birth", "about_me", "username")
+@form_fields_length(name=64, date_of_birth=24, about_me=200, username=32)
+def profile_change_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
+    abort(501)
