@@ -55,12 +55,9 @@ def create_admin_user() -> None:
     """
     email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
     password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
+    username = os.getenv('ADMIN_USERNAME', 'Admin')
     if not User.find_by_email(email):
-        admin = USER_DATASTORE.create_new_user(email=email, password=password, \
-                                                role='admin', confirmed=True)
-        admin.username = os.getenv('ADMIN_USERNAME', 'Admin')
-        admin.create_profile_json()
-        admin.save()
+        USER_DATASTORE.create_admin_user(email=email, password=password, username=username)
 
 def register_blueprints(server: Flask) -> None:
     """
