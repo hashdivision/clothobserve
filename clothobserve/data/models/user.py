@@ -94,7 +94,7 @@ class User(MONGO_DB.Document, UserMixin):
         """Creates cached JSON string in profile_json."""
         self.profile_json = '{"name":"' + self.profile.name + '",' \
             + '"public":' + "true" if self.profile.public else "false" + ',' \
-            + '"date_of_birth":"' + convert_to_string(self.profile.date_of_birth) + '",' \
+            + '"date_of_birth":' + convert_to_string(self.profile.date_of_birth) + ',' \
             + '"about_me":"' + self.profile.about_me + '",' \
             + '"reg_date":"' + str(self.reg_date) + '",' \
             + '"active":"' + "true" if self.active else "false" + '",' \

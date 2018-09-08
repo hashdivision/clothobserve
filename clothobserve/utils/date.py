@@ -26,6 +26,6 @@ def convert_to_string(datetime_object: datetime) -> str:
     # TODO: Fill this docstring.
     """
     try:
-        return datetime_object.strftime("%d.%m.%Y")
+        return '"' + datetime_object.strftime("%d.%m.%Y") + '"'
     except AttributeError:
         return "null"
