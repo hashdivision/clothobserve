@@ -14,6 +14,7 @@ from datetime import datetime
 import mongoengine
 from flask_security import UserMixin, RoleMixin
 from data.database.mongo import MONGO_DB
+from utils.date import convert_to_string
 
 class Role(MONGO_DB.Document, RoleMixin):
     """Role model for Clothobserve MongoDB."""
@@ -81,41 +82,36 @@ class User(MONGO_DB.Document, UserMixin):
     #: JSON of profile information for other users to see.
     profile_json = MONGO_DB.StringField()
 
+    def update_username(self, username: str) -> bool:
+        """Updates username if it is new and alphanumeric."""
+        if username and username != self.username and username.isalnum():
+            self.username = username
+            return True
+
+        return False
+
     def create_profile_json(self) -> None:
         """Creates cached JSON string in profile_json."""
         self.profile_json = '{"name":"' + self.profile.name + '",' \
             + '"public":' + "true" if self.profile.public else "false" + ',' \
-            + '"date_of_birth":"' + str(self.profile.date_of_birth) + '",' \
+            + '"date_of_birth":"' + convert_to_string(self.profile.date_of_birth) + '",' \
             + '"about_me":"' + self.profile.about_me + '",' \
             + '"reg_date":"' + str(self.reg_date) + '",' \
-            + '"active":"' + str(self.active) + '",' \
+            + '"active":"' + "true" if self.active else "false" + '",' \
             + '"roles":' + str([str(r.name) for r in self.roles]) + ',' \
             + '"username":"' + self.username + '"}'
 
     def update_profile(self, name: str, date_of_birth: datetime, \
                         about_me: str, username: str) -> None:
         """Updates user profile if everything is ok with arguments."""
-        updated = False
-        if name and name != self.profile.name and len(name.split()) == 2:
-            self.profile.name = name
-            updated = True
-
-        if date_of_birth and date_of_birth != self.profile.date_of_birth:
-            self.profile.date_of_birth = date_of_birth
-            updated = True
-
-        if about_me and about_me != self.profile.about_me:
-            self.profile.about_me = about_me
-            updated = True
-
-        if username and username != self.username and ' ' not in username \
-                    and username.isalnum():
-            self.username = username
-            updated = True
-
+        updated = self.profile.update_name(name)
+        updated = True if self.profile.update_dob(date_of_birth) else updated
+        updated = True if self.profile.update_about_me(about_me) else updated
         if updated:
-            self.create_profile_json()
             self.profile.save()
+
+        if self.update_username(username) or updated:
+            self.create_profile_json()
             self.save()
 
 class Profile(MONGO_DB.Document):
@@ -134,3 +130,27 @@ class Profile(MONGO_DB.Document):
     #: Is user profile public and can be seen by other users.
     #: By default user profile is private.
     public = MONGO_DB.BooleanField(default=False)
+
+    def update_name(self, name: str) -> bool:
+        """Updates name if it is new and consist of two words."""
+        if name and name != self.name and len(name.split()) == 2:
+            self.name = name
+            return True
+
+        return False
+
+    def update_dob(self, date_of_birth: datetime) -> bool:
+        """Updates date_of_birth if it is new."""
+        if date_of_birth and date_of_birth != self.date_of_birth:
+            self.date_of_birth = date_of_birth
+            return True
+
+        return False
+
+    def update_about_me(self, about_me: str) -> bool:
+        """Updates about_me if it is new."""
+        if about_me and about_me != self.about_me:
+            self.about_me = about_me
+            return True
+
+        return False
