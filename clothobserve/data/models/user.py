@@ -93,11 +93,11 @@ class User(MONGO_DB.Document, UserMixin):
     def create_profile_json(self) -> None:
         """Creates cached JSON string in profile_json."""
         self.profile_json = '{"name":"' + self.profile.name + '",' \
-            + '"public":' + "true" if self.profile.public else "false" + ',' \
+            + '"public":' + ("true" if self.profile.public else "false") + ',' \
             + '"date_of_birth":' + convert_to_string(self.profile.date_of_birth) + ',' \
             + '"about_me":"' + self.profile.about_me + '",' \
             + '"reg_date":"' + str(self.reg_date) + '",' \
-            + '"active":"' + "true" if self.active else "false" + '",' \
+            + '"active":' + ("true" if self.active else "false") + ',' \
             + '"roles":' + str([str(r.name) for r in self.roles]) + ',' \
             + '"username":"' + self.username + '"}'
 
