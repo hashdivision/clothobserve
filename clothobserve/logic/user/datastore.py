@@ -18,25 +18,22 @@ from data.database.mongo import MONGO_DB
 class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
 
-    def create_new_user(self, email: str, password: str, \
-                        role: str = "user", confirmed: bool = False) -> User:
+    def create_new_user(self, email: str, password: str) -> User:
         """
-        Creates new user with default username ``user[number_of_users_total]``.
+        Creates new user with username ``user[number_of_users_total+1]``.
 
         :param email: unique email for new user.
         :param password: plain text password that will be hashed.
-        :param role: every user must have 1 of the 4 default roles.
-        :param confirmed: should user's email be confirmed from the start.
 
         Returns:
-            True, if new user is created. Otherwise - False.
+            User object if new user is created. Otherwise - None.
         """
         if not User.find_by_email(email):
             username = "user" + str(User.objects.count()+1)
             user = self.create_user(email=email, password=hash_password(password), \
-                                    confirmed=confirmed, username=username)
+                                    username=username)
             if user:
-                self.add_role_to_user(user, Role.find_by_name(role))
+                self.add_role_to_user(user, Role.find_by_name("user"))
                 profile = Profile(user=user)
                 profile.save()
                 user.profile = profile
@@ -45,6 +42,24 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
                 return user
 
         return None
+
+    def create_admin_user(self, email: str, password: str, username: str) -> None:
+        """
+        Creates admin user.
+
+        :param email: unique email for the admin user.
+        :param password: plain text password that will be hashed.
+        :param username: unique username for admin user.
+        """
+        admin = self.create_user(email=email, password=hash_password(password), \
+                                confirmed=True, username=username)
+        if admin:
+            self.add_role_to_user(admin, Role.find_by_name("admin"))
+            profile = Profile(user=admin)
+            profile.save()
+            admin.profile = profile
+            admin.create_profile_json()
+            admin.save()
 
     @staticmethod
     def add_role_to_user(user: User, role: Role) -> bool:
