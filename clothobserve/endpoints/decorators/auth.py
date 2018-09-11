@@ -11,14 +11,13 @@
 
 """
 from functools import wraps
-from flask import abort
-from flask_api import status
 from flask_principal import Permission, RoleNeed
 from flask_security.core import current_user
 from data.constants.responses.decorators_auth import LOGIN_REQUIRED, \
     NO_PERMISSION
+from data.constants.responses.generic import NOT_FOUND
 
-def login_required(silent: bool = False): # pylint: disable=inconsistent-return-statements
+def login_required(silent: bool = False):
     """
     Decorator for endpoints that require user to be logged in.
     If silent is set to True - 404 HTTP code is sent if user is not logged in.
@@ -31,7 +30,7 @@ def login_required(silent: bool = False): # pylint: disable=inconsistent-return-
         def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
             if not current_user.is_authenticated:
                 if silent:
-                    abort(status.HTTP_404_NOT_FOUND)
+                    return NOT_FOUND
 
                 return LOGIN_REQUIRED
 
@@ -41,7 +40,7 @@ def login_required(silent: bool = False): # pylint: disable=inconsistent-return-
 
     return wrapper
 
-def anonymous_required(function): # pylint: disable=inconsistent-return-statements
+def anonymous_required(function):
     """
     Decorator for endpoints that require user not to be logged in.
     404 HTTP code is sent if user is logged in.
@@ -49,13 +48,13 @@ def anonymous_required(function): # pylint: disable=inconsistent-return-statemen
     @wraps(function)
     def decorated_view(*args, **kwargs): # pylint: disable=missing-docstring
         if current_user.is_authenticated:
-            abort(status.HTTP_404_NOT_FOUND)
+            return NOT_FOUND
 
         return function(*args, **kwargs)
 
     return decorated_view
 
-def roles_accepted(*roles, silent: bool = False): # pylint: disable=inconsistent-return-statements
+def roles_accepted(*roles, silent: bool = False):
     """
     Decorator for endpoints that require user to
     have one of the roles provided as ``*roles``.
@@ -71,7 +70,7 @@ def roles_accepted(*roles, silent: bool = False): # pylint: disable=inconsistent
             permission = Permission(*[RoleNeed(role) for role in roles])
             if not permission.can():
                 if silent:
-                    abort(status.HTTP_404_NOT_FOUND)
+                    return NOT_FOUND
 
                 return NO_PERMISSION
 
@@ -81,7 +80,7 @@ def roles_accepted(*roles, silent: bool = False): # pylint: disable=inconsistent
 
     return wrapper
 
-def roles_required(*roles, silent: bool = False): # pylint: disable=inconsistent-return-statements
+def roles_required(*roles, silent: bool = False):
     """
     Decorator for endpoints that require user to
     have all of the roles provided as ``*roles``.
@@ -98,7 +97,7 @@ def roles_required(*roles, silent: bool = False): # pylint: disable=inconsistent
             for permission in permissions:
                 if not permission.can():
                     if silent:
-                        abort(status.HTTP_404_NOT_FOUND)
+                        return NOT_FOUND
 
                     return NO_PERMISSION
 
