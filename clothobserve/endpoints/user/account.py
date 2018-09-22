@@ -92,7 +92,7 @@ def logout_endpoint() -> Response:
     logout_user()
     return LOGGED_OUT
 
-@ACCOUNT_BP.route("/password/restore")
+@ACCOUNT_BP.route("/password/restore", methods=['POST'])
 @anonymous_required
 @form_required("email")
 @form_fields_max_length(email=255)
@@ -102,7 +102,7 @@ def password_restore_send_link_endpoint() -> Response:
     """
     abort(501)
 
-@ACCOUNT_BP.route("/password/restore/<random_key>")
+@ACCOUNT_BP.route("/password/restore/<random_key>", methods=['POST'])
 @anonymous_required
 @form_required("new_password")
 @form_fields_max_length(new_password=255)
@@ -117,6 +117,14 @@ def password_restore_set_new_endpoint(random_key: str) -> Response:
 @form_required("old_password", "new_password")
 @form_fields_max_length(old_password=255, new_password=255)
 def password_change_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
+    abort(501)
+
+@ACCOUNT_BP.route("/email/confirm/<random_key>", methods=['POST'])
+@anonymous_required
+def email_confirmation_endpoint(random_key: str) -> Response:
     """
     # TODO: Fill this docstring.
     """
