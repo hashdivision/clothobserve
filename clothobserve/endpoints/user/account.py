@@ -96,7 +96,17 @@ def logout_endpoint() -> Response:
 @anonymous_required
 @form_required("email")
 @form_fields_max_length(email=255)
-def password_restore_endpoint() -> Response:
+def password_restore_send_link_endpoint() -> Response:
+    """
+    # TODO: Fill this docstring.
+    """
+    abort(501)
+
+@ACCOUNT_BP.route("/password/restore/<random_key>")
+@anonymous_required
+@form_required("new_password")
+@form_fields_max_length(new_password=255)
+def password_restore_set_new_endpoint(random_key: str) -> Response:
     """
     # TODO: Fill this docstring.
     """
