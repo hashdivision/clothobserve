@@ -31,7 +31,7 @@ def own_profile_endpoint() -> Response:
     """
     return current_user.profile_json
 
-@PROFILE_BP.route("/user/<username>")
+@PROFILE_BP.route("/<username>")
 @login_required(silent=True)
 def user_endpoint(username: str) -> Response:
     """
