@@ -10,20 +10,20 @@ from data.constants.responses.user_profile import PROFILE_NOT_FOUND, PRIVATE, PU
 from logic.user.datastore import USER_DATASTORE
 
 def visibility(client: FlaskClient) -> Response:
-    """Fast method for using ``/profile/visibility`` endpoint"""
-    return client.get('/profile/visibility')
+    """Fast method for using ``/account/profile/visibility`` endpoint"""
+    return client.get('/account/profile/visibility')
 
 def visibility_change(client: FlaskClient, state: int) -> Response:
-    """Fast method for using ``/profile/visibility/<int: state>`` endpoint"""
-    return client.post('/profile/visibility/' + str(state))
+    """Fast method for using ``/account/profile/visibility/<int: state>`` endpoint"""
+    return client.post('/account/profile/visibility/' + str(state))
 
 def user(client: FlaskClient, username: str) -> Response:
-    """Fast method for using ``/profile/user/<username>`` endpoint"""
-    return client.get('/profile/user/' + username)
+    """Fast method for using ``/account/profile/<username>`` endpoint"""
+    return client.get('/account/profile/' + username)
 
 def root_profile(client: FlaskClient) -> Response:
-    """Fast method for using ``/profile/`` endpoint"""
-    return client.get('/profile/')
+    """Fast method for using ``/account/profile/`` endpoint"""
+    return client.get('/account/profile/')
 
 def register(client: FlaskClient, email: str, password: str) -> None:
     """Fast method for using ``/account/register`` endpoint"""
