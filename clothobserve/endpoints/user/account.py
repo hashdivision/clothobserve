@@ -10,7 +10,7 @@
     |
 
 """
-from flask import Blueprint, Response, request, abort
+from flask import Blueprint, Response, request
 from flask_security.utils import login_user, logout_user, verify_password
 from endpoints.decorators.auth import login_required, anonymous_required
 from endpoints.decorators.data import form_required, form_fields_max_length

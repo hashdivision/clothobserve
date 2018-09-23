@@ -1,6 +1,9 @@
-from flask import Blueprint, Response, abort
+from flask import Blueprint, Response, request, abort
+from flask_security.core import current_user
+from flask_security.utils import verify_password, hash_password
 from endpoints.decorators.auth import login_required, anonymous_required
 from endpoints.decorators.data import form_required, form_fields_max_length
+from data.constants.responses.user_password import CHANGE_SUCCESS, WRONG_OLD_PASSWORD
 
 #: Blueprint of this password module.
 PASSWORD_BP = Blueprint("password", __name__)
@@ -33,4 +36,9 @@ def change_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
     """
-    abort(501)
+    if verify_password(request.form["old_password"], current_user.password):
+        current_user.password = hash_password(request.form["new_password"])
+        current_user.save()
+        return CHANGE_SUCCESS
+
+    return WRONG_OLD_PASSWORD
