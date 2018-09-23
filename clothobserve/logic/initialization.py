@@ -15,6 +15,8 @@ from flask import Flask
 from data.models.user import User
 from endpoints.user.account import ACCOUNT_BP
 from endpoints.user.profile import PROFILE_BP
+from endpoints.user.password import PASSWORD_BP
+from endpoints.user.email import EMAIL_BP
 from endpoints.admin.users import ADMIN_USERS_BP
 from logic.user.datastore import USER_DATASTORE
 
@@ -63,6 +65,8 @@ def register_blueprints(server: Flask) -> None:
     """
     # TODO: Fill this docstring.
     """
+    server.register_blueprint(EMAIL_BP, url_prefix="/account/email")
+    server.register_blueprint(PASSWORD_BP, url_prefix="/account/password")
+    server.register_blueprint(PROFILE_BP, url_prefix="/account/profile")
     server.register_blueprint(ACCOUNT_BP, url_prefix="/account")
-    server.register_blueprint(PROFILE_BP, url_prefix="/profile")
     server.register_blueprint(ADMIN_USERS_BP, url_prefix="/admin/users")
