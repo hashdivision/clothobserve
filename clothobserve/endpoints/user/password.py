@@ -15,6 +15,7 @@ from flask_security.core import current_user
 from endpoints.decorators.auth import login_required, anonymous_required
 from endpoints.decorators.data import form_required, form_fields_max_length
 from data.constants.responses.user_password import CHANGE_SUCCESS, WRONG_OLD_PASSWORD
+from logic.user.datastore import USER_DATASTORE
 
 #: Blueprint of this password module.
 PASSWORD_BP = Blueprint("password", __name__)
