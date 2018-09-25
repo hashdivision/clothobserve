@@ -53,17 +53,22 @@ class User(MONGO_DB.Document, UserMixin):
     #: Password is hashed with PBKDF2-SHA512, so it will always
     #: be around 130 characters, but maximum length is not restricted.
     password = MONGO_DB.StringField(required=True)
+    #: Random token that should be checked at
+    #: password restoration endpoint in order to set new password.
+    password_reset_token = MONGO_DB.StringField()
+    #: Date of generation of password reset token to check for expiration.
+    password_reset_token_date = MONGO_DB.DateTimeField()
     #: Inactive users cannot login into Clothobserve service.
     active = MONGO_DB.BooleanField(default=True)
     #: Roles are used to restrict access to some functionality.
     roles = MONGO_DB.ListField(MONGO_DB.ReferenceField(Role), default=[])
     #: User registration date.
     reg_date = MONGO_DB.DateTimeField(default=datetime.now)
-    #: Random hash that should be checked at
+    #: Random token that should be checked at
     #: confirmation endpoint in order to confirm email.
-    confirm_hash = MONGO_DB.StringField()
-    #: Date of generation of confirm hash to check for expiration.
-    confirm_hash_date = MONGO_DB.DateTimeField()
+    confirm_token = MONGO_DB.StringField()
+    #: Date of generation of confirm token to check for expiration.
+    confirm_token_date = MONGO_DB.DateTimeField()
     #: This flag shows if user's email is confirmed.
     confirmed = MONGO_DB.BooleanField(default=False)
     #: Last login time. Used for security.
