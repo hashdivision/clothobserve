@@ -11,8 +11,7 @@
 
 """
 from functools import wraps
-from flask import abort, request
-from flask_api import status
+from flask import request
 from data.constants.responses.decorators_data import BAD_FORM, \
     LARGE_FIELD_LENGTH
 
