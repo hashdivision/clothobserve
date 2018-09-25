@@ -1,6 +1,6 @@
 """
-    clothobserve.endpoints.user.account
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    clothobserve.endpoints.user.password
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Password related endpoints for account.
 
     :copyright: © 2018 HashDivision OU.
