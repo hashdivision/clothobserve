@@ -30,11 +30,11 @@ def restore_send_link_endpoint() -> Response:
     """
     abort(501)
 
-@PASSWORD_BP.route("/restore/<random_key>", methods=['POST'])
+@PASSWORD_BP.route("/restore/<token>", methods=['POST'])
 @anonymous_required
 @form_required("new_password")
 @form_fields_max_length(new_password=255)
-def restore_set_new_endpoint(random_key: str) -> Response:
+def restore_set_new_endpoint(token: str) -> Response:
     """
     # TODO: Fill this docstring.
     """

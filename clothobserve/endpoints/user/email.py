@@ -16,9 +16,9 @@ from endpoints.decorators.auth import anonymous_required
 #: Blueprint of this email module.
 EMAIL_BP = Blueprint("email", __name__)
 
-@EMAIL_BP.route("/confirm/<random_key>", methods=['POST'])
+@EMAIL_BP.route("/confirm/<token>", methods=['POST'])
 @anonymous_required
-def email_confirmation_endpoint(random_key: str) -> Response:
+def email_confirmation_endpoint(token: str) -> Response:
     """
     # TODO: Fill this docstring.
     """
