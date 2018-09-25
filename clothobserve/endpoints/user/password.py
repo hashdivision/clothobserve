@@ -10,12 +10,15 @@
     |
 
 """
+from datetime import datetime
 from flask import Blueprint, Response, request, abort
 from flask_security.core import current_user
 from endpoints.decorators.auth import login_required, anonymous_required
 from endpoints.decorators.data import form_required, form_fields_max_length
 from data.constants.responses.user_password import CHANGE_SUCCESS, WRONG_OLD_PASSWORD
+from data.models.user import User
 from logic.user.datastore import USER_DATASTORE
+from logic.mail.sender import send_html_mail
 
 #: Blueprint of this password module.
 PASSWORD_BP = Blueprint("password", __name__)
@@ -28,7 +31,16 @@ def restore_send_link_endpoint() -> Response:
     """
     # TODO: Fill this docstring.
     """
-    abort(501)
+    user = User.find_by_email(request.form["email"])
+    if user and not user.password_reset_token:
+        token = "random"
+        user.password_reset_token = token
+        user.password_reset_token_date = datetime.now()
+        send_html_mail("Password Restoration", "Restoration link: localhost/restore/" + token, \
+                        request.form["email"])
+
+    return "Check your email :)"
+
 
 @PASSWORD_BP.route("/restore/<token>", methods=['POST'])
 @anonymous_required
