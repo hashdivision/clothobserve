@@ -11,7 +11,7 @@
 
 """
 from flask_security.datastore import MongoEngineUserDatastore
-from flask_security.utils import hash_password
+from flask_security.utils import hash_password, verify_password
 from data.models.user import User, Role, Profile
 from data.database.mongo import MONGO_DB
 
@@ -60,6 +60,21 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
             admin.profile = profile
             admin.create_profile_json()
             admin.save()
+
+    @staticmethod
+    def change_user_password(user: User, old_password: str, new_password: str) -> bool:
+        """
+        Changes user password if old password is correct.
+
+        Returns:
+            True if old password was correct (password was changed). Otherwise - False.
+        """
+        if verify_password(old_password, user.password):
+            user.password = hash_password(new_password)
+            user.save()
+            return True
+
+        return False
 
     @staticmethod
     def add_role_to_user(user: User, role: Role) -> bool:
