@@ -1,3 +1,15 @@
+"""
+    clothobserve.endpoints.user.account
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Password related endpoints for account.
+
+    :copyright: © 2018 HashDivision OU.
+
+    :license: Apache License 2.0, see *LICENSE* for more details.
+
+    |
+
+"""
 from flask import Blueprint, Response, request, abort
 from flask_security.core import current_user
 from flask_security.utils import verify_password, hash_password

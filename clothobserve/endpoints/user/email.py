@@ -1,3 +1,15 @@
+"""
+    clothobserve.endpoints.user.account
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Email related endpoints for account.
+
+    :copyright: © 2018 HashDivision OU.
+
+    :license: Apache License 2.0, see *LICENSE* for more details.
+
+    |
+
+"""
 from flask import Blueprint, Response, abort
 from endpoints.decorators.auth import anonymous_required
 
