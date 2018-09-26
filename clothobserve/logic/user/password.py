@@ -12,12 +12,10 @@
 """
 from datetime import datetime
 from data.models.user import User
+from data.constants.mail.password import RESTORATION_MESSAGE
 from logic.mail.sender import send_html_mail
 
-#: Message which will be sent to user's email upon restoration request.
-_RESTORATION_MESSAGE = "Restoration link: localhost/restore/%s"
-
-def generate_random_token(email: str) -> str:
+def generate_random_token() -> str:
     """
     # TODO: Fill this docstring.
     # TODO: Implement.
@@ -34,4 +32,4 @@ def send_restoration_link(email: str) -> None:
         token = generate_random_token(email)
         user.password_reset_token = token
         user.password_reset_date = datetime.now()
-        send_html_mail("Password Restoration", _RESTORATION_MESSAGE % token, email)
+        send_html_mail("Password Restoration", RESTORATION_MESSAGE % token, email)
