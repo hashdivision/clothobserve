@@ -35,7 +35,7 @@ def restore_send_link_endpoint() -> Response:
     if user and not user.password_reset_token:
         token = "random"
         user.password_reset_token = token
-        user.password_reset_token_date = datetime.now()
+        user.password_reset_date = datetime.now()
         send_html_mail("Password Restoration", "Restoration link: localhost/restore/" + token, \
                         request.form["email"])
 

@@ -57,7 +57,7 @@ class User(MONGO_DB.Document, UserMixin):
     #: password restoration endpoint in order to set new password.
     password_reset_token = MONGO_DB.StringField()
     #: Date of generation of password reset token to check for expiration.
-    password_reset_token_date = MONGO_DB.DateTimeField()
+    password_reset_date = MONGO_DB.DateTimeField()
     #: Inactive users cannot login into Clothobserve service.
     active = MONGO_DB.BooleanField(default=True)
     #: Roles are used to restrict access to some functionality.
@@ -68,7 +68,7 @@ class User(MONGO_DB.Document, UserMixin):
     #: confirmation endpoint in order to confirm email.
     confirm_token = MONGO_DB.StringField()
     #: Date of generation of confirm token to check for expiration.
-    confirm_token_date = MONGO_DB.DateTimeField()
+    confirm_date = MONGO_DB.DateTimeField()
     #: This flag shows if user's email is confirmed.
     confirmed = MONGO_DB.BooleanField(default=False)
     #: Last login time. Used for security.
