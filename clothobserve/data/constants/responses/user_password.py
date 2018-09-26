@@ -17,3 +17,5 @@ from flask_api import status
 WRONG_OLD_PASSWORD = Response("Wrong Old Password", status=status.HTTP_403_FORBIDDEN)
 #: Response for successful change of password.
 CHANGE_SUCCESS = Response("Password Changed", status=status.HTTP_200_OK)
+#: Response for attempt to send restoration link to email.
+CHECK_EMAIL = Response("Check Your Email", status=status.HTTP_200_OK)
