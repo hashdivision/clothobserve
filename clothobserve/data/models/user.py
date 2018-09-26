@@ -14,7 +14,7 @@ from datetime import datetime
 import mongoengine
 from flask_security import UserMixin, RoleMixin
 from data.database.mongo import MONGO_DB
-from utils.date import convert_to_string
+from logic.utils.date import convert_to_string
 
 class Role(MONGO_DB.Document, RoleMixin):
     """Role model for Clothobserve MongoDB."""

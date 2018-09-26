@@ -1,6 +1,6 @@
 """
-    clothobserve.utils.date
-    ~~~~~~~~~~~~~~~~~~~~~~~
+    clothobserve.logic.utils.date
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     # TODO: Fill this docstring.
 
     :copyright: © 2018 HashDivision OU.

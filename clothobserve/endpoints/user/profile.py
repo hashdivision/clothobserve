@@ -18,7 +18,7 @@ from data.models.user import User
 from data.constants.responses.user_profile import PROFILE_NOT_FOUND, \
     PUBLIC, PRIVATE
 from logic.user.datastore import USER_DATASTORE
-from utils.date import convert_to_datetime
+from logic.utils.date import convert_to_datetime
 
 #: Blueprint of this profile module.
 PROFILE_BP = Blueprint("profile", __name__)
