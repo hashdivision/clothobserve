@@ -12,6 +12,7 @@
 """
 import random
 import string
+from hashlib import sha512
 
 def generate_random_string(length: int) -> str:
     """
@@ -20,3 +21,9 @@ def generate_random_string(length: int) -> str:
     :param length: random string length.
     """
     return ''.join(random.choice(string.ascii_letters) for x in range(length))
+
+def generate_random_token() -> str:
+    """
+    Generates random token by hashing via SHA512 64 random characters.
+    """
+    return sha512(generate_random_string(64).encode('utf-8')).hexdigest()
