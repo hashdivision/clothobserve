@@ -1,7 +1,7 @@
 """
     clothobserve.endpoints.user.email
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Email related endpoints for account.
+    Email related endpoints for account (``/account/email/``).
 
     :copyright: © 2018 HashDivision OU.
 
@@ -20,6 +20,12 @@ EMAIL_BP = Blueprint("email", __name__)
 @anonymous_required
 def email_confirmation_endpoint(token: str) -> Response:
     """
-    # TODO: Fill this docstring.
+    Email confirmation POST endpoint (**/account/email/confirm**)
+    for confirming that you own the email securely.
+    You MUST not be logged in to use it.
+
+    Returns:
+        Success (200 OK): ?.
+        Fail (404 NOT FOUND): if logged in user uses this endpoint.
     """
     abort(501)

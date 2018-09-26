@@ -1,7 +1,8 @@
 """
     clothobserve.data.models.user
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    User related MongoDB models.
+    Role, User and Profile classes with their methods.
 
     :copyright: © 2018 HashDivision OU.
 

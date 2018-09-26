@@ -1,7 +1,7 @@
 """
     clothobserve.logic.utils.date
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Date related utility functions.
 
     :copyright: © 2018 HashDivision OU.
 
@@ -14,7 +14,10 @@ from datetime import datetime
 
 def convert_to_datetime(string: str, date_format: str = '%d.%m.%Y') -> datetime:
     """
-    # TODO: Fill this docstring.
+    Converts string in DD.MM.YYYY format to datetime object.
+
+    Returns:
+        If conversion succeeds - ``datetime`` object. Otherwise - None.
     """
     try:
         return datetime.strptime(string, date_format)
@@ -23,7 +26,10 @@ def convert_to_datetime(string: str, date_format: str = '%d.%m.%Y') -> datetime:
 
 def convert_to_string(datetime_object: datetime) -> str:
     """
-    # TODO: Fill this docstring.
+    Converts datetime object to JSON string in DD.MM.YYYY format.
+
+    Returns:
+        If conversion succeeds - ``"DD.MM.YYYY"`` string. Otherwise - ``null`` string.
     """
     try:
         return '"' + datetime_object.strftime("%d.%m.%Y") + '"'

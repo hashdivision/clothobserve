@@ -1,7 +1,7 @@
 """
     clothobserve.data.constants.responses.decorators_auth
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Constant responses for auth related decorators.
 
     :copyright: © 2018 HashDivision OU.
 

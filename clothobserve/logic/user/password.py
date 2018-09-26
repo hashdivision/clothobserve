@@ -18,7 +18,9 @@ from logic.utils.random import generate_random_token
 
 def send_restoration_link(email: str) -> None:
     """
-    # TODO: Fill this docstring.
+    Send restoration link to provided email.
+
+    :param email: where the message with restoration link will be sent.
     """
     user = User.find_by_email(email)
     if user and not user.password_reset_token:

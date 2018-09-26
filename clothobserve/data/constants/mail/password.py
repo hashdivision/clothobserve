@@ -1,7 +1,7 @@
 """
     clothobserve.data.constants.mail.password
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Password related mail bodies.
+    Universal password related mail bodies.
 
     :copyright: © 2018 HashDivision OU.
 

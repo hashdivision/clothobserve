@@ -1,7 +1,7 @@
 """
     clothobserve.data.constants.responses.user_password
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Constant responses for /account/password/ endpoints.
 
     :copyright: © 2018 HashDivision OU.
 

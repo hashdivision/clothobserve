@@ -1,7 +1,7 @@
 """
     clothobserve.logic.initialization
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Datastore with methods that manipulate user's data.
 
     :copyright: © 2018 HashDivision OU.
 

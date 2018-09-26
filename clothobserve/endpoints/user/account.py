@@ -1,7 +1,7 @@
 """
     clothobserve.endpoints.user.account
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Auth related endpoints for account.
+    Auth related endpoints for account (``/account/``).
 
     :copyright: © 2018 HashDivision OU.
 
@@ -38,7 +38,7 @@ def register_endpoint() -> Response:
         Success (200 OK): JSON string with username.
         Fail (401 UNAUTHORIZED): Email Is Registered.
         Fail (404 NOT FOUND): if logged in user uses this endpoint.
-        Fail (400 BAD REQUEST): if form does not contain email and password
+        Fail (400 BAD REQUEST): if form does not contain email and password.
         Fail (413 REQUEST ENTITY TOO LARGE): if form fields have wrong length.
     """
     user = USER_DATASTORE.create_new_user(request.form["email"], request.form["password"])

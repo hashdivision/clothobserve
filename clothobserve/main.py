@@ -1,7 +1,7 @@
 """
     clothobserve.main
     ~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    The entrypoint of Clothobserve service.
 
     :copyright: © 2018 HashDivision OU.
 

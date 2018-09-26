@@ -63,7 +63,7 @@ def create_admin_user() -> None:
 
 def register_blueprints(server: Flask) -> None:
     """
-    # TODO: Fill this docstring.
+    Registering Blueprints with all service endpoints.
     """
     server.register_blueprint(EMAIL_BP, url_prefix="/account/email")
     server.register_blueprint(PASSWORD_BP, url_prefix="/account/password")
