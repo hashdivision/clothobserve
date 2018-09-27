@@ -10,14 +10,14 @@
     |
 
 """
-from flask import Blueprint, Response, request, abort
+from flask import Blueprint, Response, request
 from flask_security.core import current_user
 from endpoints.decorators.auth import login_required, anonymous_required
 from endpoints.decorators.data import form_required, form_fields_max_length
 from data.constants.responses.user_password import CHANGE_SUCCESS, WRONG_OLD_PASSWORD, \
     CHECK_EMAIL
 from logic.user.datastore import USER_DATASTORE
-from logic.user.password import send_restoration_link
+from logic.user.password import send_restoration_link, reset_password
 
 #: Blueprint of this password module.
 PASSWORD_BP = Blueprint("password", __name__)
@@ -53,12 +53,13 @@ def restore_set_new_endpoint(token: str) -> Response:
     You MUST not be logged in to use it.
 
     Returns:
-        Success (200 OK): ?.
+        Success (200 OK): Password Changed.
         Fail (404 NOT FOUND): if logged in user uses this endpoint.
         Fail (400 BAD REQUEST): if form does not contain new_password.
         Fail (413 REQUEST ENTITY TOO LARGE): if form fields have wrong length.
     """
-    abort(501)
+    reset_password(token, request.form["new_password"])
+    return CHANGE_SUCCESS
 
 @PASSWORD_BP.route("/change", methods=['POST'])
 @login_required(silent=True)
