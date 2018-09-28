@@ -14,6 +14,7 @@ from flask_security.datastore import MongoEngineUserDatastore
 from flask_security.utils import hash_password, verify_password
 from data.models.user import User, Role, Profile
 from data.database.mongo import MONGO_DB
+from logic.user.email import send_confirmation_link
 
 class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
@@ -38,7 +39,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
                 profile.save()
                 user.profile = profile
                 user.create_profile_json()
-                user.save()
+                # When generating and sending link - user.save() is called
+                send_confirmation_link(user)
                 return user
 
         return None
