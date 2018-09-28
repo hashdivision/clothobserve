@@ -29,6 +29,7 @@ def send_restoration_link(email: str) -> None:
         token = generate_random_token()
         user.password_reset_token = token
         user.password_reset_date = datetime.now()
+        user.save()
         send_html_mail("Password Restoration", RESTORATION_MESSAGE % (token, token), email)
 
 def reset_password(token: str, password: str) -> None:
