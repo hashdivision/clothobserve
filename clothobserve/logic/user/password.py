@@ -10,11 +10,12 @@
     |
 
 """
-from datetime import datetime, timedelta
+from datetime import datetime
 from data.models.user import User
 from data.constants.mail.password import RESTORATION_MESSAGE
 from logic.mail.sender import send_html_mail
 from logic.utils.random import generate_random_token
+from logic.utils.date import is_timestamp_expired
 
 def send_restoration_link(email: str) -> None:
     """
@@ -29,16 +30,6 @@ def send_restoration_link(email: str) -> None:
         user.password_reset_date = datetime.now()
         send_html_mail("Password Restoration", RESTORATION_MESSAGE % token, email)
 
-def is_timestamp_expired(timestamp: datetime, expiry_timedelta: timedelta) -> bool:
-    """
-    Determines if timedelta has passed from provided datetime.
-    # TODO: Move to utils
-
-    Returns:
-        If expiry_timedelta did pass after timestamp.
-    """
-    return timestamp + expiry_timedelta < datetime.now()
-
 def reset_password(token: str, password: str) -> None:
     """
     Reset password of user who has provided password token.
@@ -49,5 +40,5 @@ def reset_password(token: str, password: str) -> None:
     :param password: password that will be set if token is right and not expired.
     """
     user = User.find_by_password_token(token)
-    if user and not is_timestamp_expired(user.password_reset_date, timedelta(days=1)):
+    if user and not is_timestamp_expired(user.password_reset_date, days=1):
         pass
