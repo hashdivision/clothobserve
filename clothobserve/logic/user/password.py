@@ -41,5 +41,7 @@ def reset_password(token: str, password: str) -> None:
     """
     user = User.find_by_password_token(token)
     if user and not is_timestamp_expired(user.password_reset_date, days=1):
+        user.password_reset_token = None
+        user.password_reset_date = None
         user.password = hash_password(password)
         user.save()
