@@ -20,7 +20,7 @@ EMAIL_BP = Blueprint("email", __name__)
 @anonymous_required
 def email_confirmation_endpoint(token: str) -> Response:
     """
-    Email confirmation POST endpoint (**/account/email/confirm**)
+    Email confirmation POST endpoint (**/account/email/confirm/<token>**)
     for confirming that you own the email securely.
     You MUST not be logged in to use it.
 
