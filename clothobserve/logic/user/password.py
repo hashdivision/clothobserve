@@ -11,6 +11,7 @@
 
 """
 from datetime import datetime
+from flask_security.utils import hash_password
 from data.models.user import User
 from data.constants.mail.password import RESTORATION_MESSAGE
 from logic.mail.sender import send_html_mail
@@ -33,12 +34,11 @@ def send_restoration_link(email: str) -> None:
 def reset_password(token: str, password: str) -> None:
     """
     Reset password of user who has provided password token.
-    # TODO: Refactor
-    # TODO: Implement
 
     :param token: password reset token which was assigned to user on reset request.
     :param password: password that will be set if token is right and not expired.
     """
     user = User.find_by_password_token(token)
     if user and not is_timestamp_expired(user.password_reset_date, days=1):
-        pass
+        user.password = hash_password(password)
+        user.save()
