@@ -1,7 +1,7 @@
 """
     clothobserve.logic.initialization
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Datastore with methods that manipulate user's data.
 
     :copyright: © 2018 HashDivision OU.
 
@@ -11,39 +11,73 @@
 
 """
 from flask_security.datastore import MongoEngineUserDatastore
-from flask_security.utils import hash_password
+from flask_security.utils import hash_password, verify_password
 from data.models.user import User, Role, Profile
 from data.database.mongo import MONGO_DB
 
 class ClothobserveUserDatastore(MongoEngineUserDatastore):
     """Slightly tweaked MongoEngineUserDatastore with new functionality."""
 
-    def create_new_user(self, email: str, password: str, \
-                        role: str = "user", confirmed: bool = False) -> User:
+    def create_new_user(self, email: str, password: str) -> User:
         """
-        Creates new user with default username ``user[number_of_users_total]``.
+        Creates new user with username ``user[number_of_users_total+1]``.
 
         :param email: unique email for new user.
         :param password: plain text password that will be hashed.
-        :param role: every user must have 1 of the 4 default roles.
-        :param confirmed: should user's email be confirmed from the start.
 
         Returns:
-            True, if new user is created. Otherwise - False.
+            User object if new user is created. Otherwise - None.
         """
         if not User.find_by_email(email):
             username = "user" + str(User.objects.count()+1)
             user = self.create_user(email=email, password=hash_password(password), \
-                                    confirmed=confirmed, username=username)
+                                    username=username)
             if user:
-                self.add_role_to_user(user, Role.find_by_name(role))
-                Profile(user=user).save()
+                self.add_role_to_user(user, Role.find_by_name("user"))
+                profile = Profile(user=user)
+                profile.save()
+                user.profile = profile
+                user.create_profile_json()
+                user.save()
                 return user
 
         return None
 
+    def create_admin_user(self, email: str, password: str, username: str) -> None:
+        """
+        Creates admin user.
 
-    def add_role_to_user(self, user: User, role: Role) -> bool:
+        :param email: unique email for the admin user.
+        :param password: plain text password that will be hashed.
+        :param username: unique username for admin user.
+        """
+        admin = self.create_user(email=email, password=hash_password(password), \
+                                confirmed=True, username=username)
+        if admin:
+            self.add_role_to_user(admin, Role.find_by_name("admin"))
+            profile = Profile(user=admin)
+            profile.save()
+            admin.profile = profile
+            admin.create_profile_json()
+            admin.save()
+
+    @staticmethod
+    def change_user_password(user: User, old_password: str, new_password: str) -> bool:
+        """
+        Changes user password if old password is correct.
+
+        Returns:
+            True if old password was correct (password was changed). Otherwise - False.
+        """
+        if verify_password(old_password, user.password):
+            user.password = hash_password(new_password)
+            user.save()
+            return True
+
+        return False
+
+    @staticmethod
+    def add_role_to_user(user: User, role: Role) -> bool:
         """
         Adds role to user if it is not in his roles yet.
 
@@ -57,7 +91,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def remove_role_from_user(self, user: User, role: Role) -> bool:
+    @staticmethod
+    def remove_role_from_user(user: User, role: Role) -> bool:
         """
         Removes role from user if it is in his roles.
 
@@ -71,7 +106,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def deactivate_user(self, user: User) -> bool:
+    @staticmethod
+    def deactivate_user(user: User) -> bool:
         """
         Deactivates user if he is active.
 
@@ -85,7 +121,8 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
 
         return False
 
-    def activate_user(self, user: User) -> bool:
+    @staticmethod
+    def activate_user(user: User) -> bool:
         """
         Activates user if he is inactive.
 
@@ -98,6 +135,18 @@ class ClothobserveUserDatastore(MongoEngineUserDatastore):
             return True
 
         return False
+
+    @staticmethod
+    def change_profile_visibility(user: User, public: bool) -> None:
+        """
+        Changes visibility of user's profile.
+        """
+        if user:
+            profile = user.profile
+            profile.public = public
+            profile.save()
+            user.create_profile_json()
+            user.save()
 
 #: Custom user datastore based on MongoEngineUserDatastore.
 USER_DATASTORE = ClothobserveUserDatastore(MONGO_DB, User, Role)

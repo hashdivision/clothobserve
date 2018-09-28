@@ -12,7 +12,11 @@
 """
 import os
 from flask import Flask
+from data.models.user import User
 from endpoints.user.account import ACCOUNT_BP
+from endpoints.user.profile import PROFILE_BP
+from endpoints.user.password import PASSWORD_BP
+from endpoints.user.email import EMAIL_BP
 from endpoints.admin.users import ADMIN_USERS_BP
 from logic.user.datastore import USER_DATASTORE
 
@@ -46,7 +50,6 @@ def create_default_user_roles() -> None:
     USER_DATASTORE.find_or_create_role(name='superuser', \
                                         description='Premium user of Clothobserve.')
 
-
 def create_admin_user() -> None:
     """
     Creates admin user.
@@ -54,12 +57,16 @@ def create_admin_user() -> None:
     """
     email = os.getenv('ADMIN_EMAIL', 'admin@example.com')
     password = os.getenv('ADMIN_PASSWORD', 'ChangeMeASAP')
-    USER_DATASTORE.create_new_user(email=email, password=password, \
-                                    role='admin', confirmed=True)
+    username = os.getenv('ADMIN_USERNAME', 'Admin')
+    if not User.find_by_email(email):
+        USER_DATASTORE.create_admin_user(email=email, password=password, username=username)
 
 def register_blueprints(server: Flask) -> None:
     """
-    # TODO: Fill this docstring.
+    Registering Blueprints with all service endpoints.
     """
+    server.register_blueprint(EMAIL_BP, url_prefix="/account/email")
+    server.register_blueprint(PASSWORD_BP, url_prefix="/account/password")
+    server.register_blueprint(PROFILE_BP, url_prefix="/account/profile")
     server.register_blueprint(ACCOUNT_BP, url_prefix="/account")
     server.register_blueprint(ADMIN_USERS_BP, url_prefix="/admin/users")

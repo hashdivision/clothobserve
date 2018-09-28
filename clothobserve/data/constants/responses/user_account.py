@@ -1,7 +1,7 @@
 """
     clothobserve.data.constants.responses.user_account
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TODO: Fill this docstring.
+    Constant responses for /account/ endpoints.
 
     :copyright: © 2018 HashDivision OU.
 
@@ -19,5 +19,5 @@ USER_INACTIVE = Response("User Is Inactive", status=status.HTTP_403_FORBIDDEN)
 WRONG_CREDENTIALS = Response("Wrong Credentials", status=status.HTTP_401_UNAUTHORIZED)
 #: Response in case email is already registered.
 EMAIL_IS_REGISTERED = Response("Email Is Registered", status=status.HTTP_401_UNAUTHORIZED)
-#: Response for successful logging out
+#: Response for successful logging out.
 LOGGED_OUT = Response("Goodbye", status=status.HTTP_200_OK)

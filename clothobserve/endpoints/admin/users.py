@@ -31,13 +31,9 @@ def register_endpoint() -> Response:
     # TODO: Fill this docstring.
     """
     if "email" in request.form and "password" in request.form:
-        role = "user"
-        if "role" in request.form:
-            role = request.form["role"]
-
-        if USER_DATASTORE.create_new_user(request.form["email"], request.form["password"], \
-                            default_role=role, auto_confirm=True):
-            return '{"username":' + '"}'
+        user = USER_DATASTORE.create_new_user(request.form["email"], request.form["password"])
+        if user:
+            return '{"username":' + user.username + '"}'
 
         return EMAIL_IS_REGISTERED
 
