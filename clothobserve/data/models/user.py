@@ -50,6 +50,11 @@ class User(MONGO_DB.Document, UserMixin):
         """Search for user with password restore token"""
         return User.objects(password_reset_token=token).first()
 
+    @staticmethod
+    def find_by_confirm_token(token: str):
+        """Search for user with email confirmation token"""
+        return User.objects(confirm_token=token).first()
+
     #: Email is restricted to 255 symbols (see ``RFC 3696``).
     #: It is the only mean of login via normal login form.
     email = MONGO_DB.StringField(max_length=255, unique=True, required=True)
