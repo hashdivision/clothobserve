@@ -10,7 +10,7 @@
     |
 
 """
-from flask import Blueprint, Response, abort
+from flask import Blueprint, Response
 from endpoints.decorators.auth import anonymous_required
 from data.constants.responses.generic import NOT_FOUND
 from data.constants.responses.user_email import CONFIRMATION_SUCCESS
